@@ -4,21 +4,24 @@
     let step = 'random';
     let selector = '#bubbles';
 
-    users = data.map(d => { return { text: d['User ID'] } })
+    let steps = [
+        { text: 'Random', value: 'random'},
+        { text: 'Grouped', value: 'group_grid'}
+    ]   
 
     var body = d3.select(selector)
     body.html("")
 
     var span = body.append('span')
-        .text('Select User: ')
+        .text('Select Option: ')
     var input = body.append('select')
-        .attr('id', 'userSelect')
+        .attr('id', 'optionSelect')
         .on('change', update)
         .selectAll('option')
-        .data(users)
+        .data(steps)
         .enter()
         .append('option')
-        .attr('value', function (d) { return d.text })
+        .attr('value', function (d) { return d.value })
         .text(function (d) { return d.text; })
     body.append('br')
 
@@ -149,7 +152,9 @@
 
     function update(val) {
 
-        step = val;
+        console.log(val)
+
+        step = val.target.value;
 
         simulation.force('x', d3.forceX(function (d) {
             return xScale(d[step].x)
