@@ -1,4 +1,4 @@
-let data = await d3.csv('../data/Forbes Wrangled Individual Data.csv')
+let data = await d3.csv('./data/Forbes Wrangled Individual Data.csv')
 
 let step = 'random';
 let selector = '#bubbles';
