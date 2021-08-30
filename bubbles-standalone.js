@@ -6,6 +6,9 @@
 
     users = data.map(d => { return { text: d['User ID'] } })
 
+    var body = d3.select(selector)
+    body.html("")
+
     var span = body.append('span')
         .text('Select User: ')
     var input = body.append('select')
@@ -18,9 +21,6 @@
         .attr('value', function (d) { return d.text })
         .text(function (d) { return d.text; })
     body.append('br')
-
-    var body = d3.select(selector)
-    body.html("")
 
     // margins for SVG
     const margin = {
