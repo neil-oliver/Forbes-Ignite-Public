@@ -1,5 +1,5 @@
 (async () => {
-    let data = await d3.csv('https://neil-oliver.github.io/Forbes-Ignite-Public/data/Forbes Wrangled Individual Data.csv')
+    let data = await d3.csv('https://raw.githubusercontent.com/neil-oliver/Forbes-Ignite-Public/main/data/Forbes%20Wrangled%20Individual%20Data.csv')
 
     let step = 'random';
     let selector = '#bubbles';
