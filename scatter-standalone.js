@@ -16,18 +16,51 @@
     var body = d3.select(selector)
     body.html("")
 
+    // create a tooltip
+    var tooltip = body
+        .append("div")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("pointer-events", "none")
+        .attr("class", "tooltip")
+
+
+    // create a dropdown
     var span = body.append('span')
         .text('Select Option: ')
+        .on("mouseover", () => {
+            tooltip
+                .text("tooltip text")
+                .style("visibility", "visible")
+        })
+        .on("mousemove", (event) => {
+            tooltip
+                .style("top", (event.pageY - 50) + "px")
+                .style("left", (event.pageX) + "px")
+        })
+        .on("mouseout", () => {
+            tooltip
+                .style("visibility", "hidden")
+        });
+
     var input = body.append('select')
         .attr('id', 'optionSelect')
         .on('change', update)
         .selectAll('option')
         .data(steps)
-        .enter()
-        .append('option')
-        .attr('value', function (d) { return d.value })
-        .text(function (d) { return d.text; })
+        .join('option')
+        .attr('value', d => d.value)
+        .text(d => d.text)
+
     body.append('br')
+    
+    // add simulation button
+    var button = body.append("button")
+    .text("Demo")
+    .attr("id", "buttonCentre")
+    .attr("class", "button")
+    .attr("background-color", "#ccc")
+    .on('click', simulate);
 
     // margins for SVG
     const margin = {
@@ -112,6 +145,19 @@
         .attr('class', 'y axis-grid')
         .call(yAxisGrid);
 
+    svg.append('text')
+    .text('Actual Score')
+    .attr('x', width / 2)
+    .attr('y', height + (margin.bottom / 2))
+    .attr('text-anchor',"middle")
+    .attr('fill', 'white')
+
+    svg.append('text')
+    .text('Predicted Score')
+    .attr('text-anchor',"middle")
+    .attr('fill', 'white')
+    .attr('transform', `translate(${-(margin.left/2)},${height /2})  rotate(-90)`)
+
     ////////////////////////////////////
     /////////// data points ////////////
     ////////////////////////////////////  
@@ -126,6 +172,22 @@
         .attr("y2", d => yScale(d[1][1]))
         .attr("stroke", (d, i) => colorScale(models[i]))
         .attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
+        .attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
+        .on("mouseover", () => {
+            tooltip
+                .text("line text")
+                .style("visibility", "visible")
+
+        })
+        .on("mousemove", (event) => {
+            tooltip
+                .style("top", (event.pageY - 50) + "px")
+                .style("left", (event.pageX) + "px")
+        })
+        .on("mouseout", () => {
+            tooltip
+                .style("visibility", "hidden")
+        });
 
     let points = svg.selectAll('.points')
         .data(data)
@@ -133,19 +195,66 @@
         .attr('r', radius)
         .attr('fill', d => colorScale(d.model))
         .attr('fill-opacity', d => d.model == step || d.model == 'perfect' ? 1 : 0)
+        .attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
         .attr('cy', d => yScale(d.predicted))
         .attr('cx', d => xScale(d.actual))
         .attr('class', 'points')
+        .on("mouseover", () => {
+            tooltip
+                .text("point text")
+                .style("visibility", "visible")
+        })
+        .on("mousemove", (event) => {
+            tooltip
+                .style("top", (event.pageY - 50) + "px")
+                .style("left", (event.pageX) + "px")
+        })
+        .on("mouseout", () => {
+            tooltip
+                .style("visibility", "hidden")
+        });
 
 
     function update(val) {
 
-        step = val.target.value;
+        if (val) step = val.target.value;
 
         points.attr('fill-opacity', d => d.model == step || d.model == 'perfect' ? 1 : 0)
+        points.attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
+
+        lines.attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
         lines.attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
 
         return step
+    }
+
+    function simulate(){
+
+        const sim_time = 1000
+        window.clearTimeout()
+
+        step = steps[0].value
+        update()
+        span.dispatch("mouseover")
+
+        setTimeout(() => {
+            points.dispatch("mouseover")
+        }, sim_time);
+
+        setTimeout(() => {
+            lines.dispatch("mouseover")
+        }, sim_time * 2);
+
+        setTimeout(() => {
+            step = steps[1].value
+            update()
+        }, sim_time * 3);
+
+        setTimeout(() => {
+            step = steps[0].value
+            update()
+            span.dispatch("mouseout")
+        }, sim_time * 4);
     }
 
 })()
