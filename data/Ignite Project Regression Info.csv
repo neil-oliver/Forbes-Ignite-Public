@@ -1,0 +1,17 @@
+variance,model,variables,direction,p value
+79%,demographic,number of participants,negative,0.001
+79%,demographic,age diversity,positive,0.093
+79%,demographic,LGBT diversity,positive,0.011
+79%,demographic,language diversity,positive,0.000048
+39%,cognitive-diversity,fairness variation,negative,0.007
+45%,cognitive-traits,fairness mean,positive,0.003
+69%,perception,number of participants,negative,0.009
+69%,perception,avg neg emotions_self,negative,0.021
+69%,perception,avg value agreement with the most dominant speaker,positive,0.006
+69%,perception,avg compromise,positive,0.082
+69%,perception,avg opinions counted,negative,0.013
+69%,perception,avg teamwork,positive,0.004
+62%,qualitative,avg new ideas,positive,0.045
+62%,qualitative,avg help when stuck,negative,0.027
+62%,qualitative,avg talk too much,negative,0.055
+62%,qualitative,avg listen,negative,0.003
