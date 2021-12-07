@@ -1,8 +1,68 @@
 (async () => {
     let data = await d3.csv('https://raw.githubusercontent.com/neil-oliver/Forbes-Ignite-Public/main/data/Ignite%20Project%20Regression.csv')
+    let info = await d3.csv('https://raw.githubusercontent.com/neil-oliver/Forbes-Ignite-Public/main/data/Ignite%20Project%20Regression%20Info.csv')
 
-    let step = 'perfect';
-    let selector = '#scatter';
+    let selector = 'scatter';
+    let visSelector = `#${selector}-vis`
+
+    document.getElementById(selector).innerHTML = `
+    <div class="row">
+        <div id="${selector}-vis" class="column"></div>
+        <div id="${selector}-info" class="column">
+            <div class="inner-container">
+                <div><h1 id="model-title">Perfect Model</h1></div>
+                <div id="${selector}-dropdown"></div>
+                <span id="variance"></span>
+                <div id="variance-label">
+                Variance<br>
+                explained<br>
+                by model
+                </div>
+                <div id="table"></div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    var styles = `
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inner-container {
+            width: 100%;
+        }
+
+        #variance{
+            font-size:3em;
+        }
+
+        .${selector}-vis line point path circle {
+            transition: all 1s;
+        }
+
+        div {
+            padding: 10px 0 10px 0;
+        }
+
+        table {
+            width: 100%;
+            text-align: left;
+        }
+    `
+
+    var styleSheet = document.createElement("style")
+    styleSheet.type = "text/css"
+    styleSheet.innerText = styles
+    document.head.appendChild(styleSheet)
+
 
     let steps = [
         { text: 'Perfect', value: 'perfect' },
@@ -13,7 +73,9 @@
         { text: 'Qualitative', value: 'qualitative' }
     ]
 
-    var body = d3.select(selector)
+    let step = steps[0].value;
+
+    var body = d3.select(visSelector)
     body.html("")
 
     // create a tooltip
@@ -25,25 +87,8 @@
         .attr("class", "tooltip")
 
 
-    // create a dropdown
-    var span = body.append('span')
-        .text('Select Option: ')
-        .on("mouseover", () => {
-            tooltip
-                .text("tooltip text")
-                .style("visibility", "visible")
-        })
-        .on("mousemove", (event) => {
-            tooltip
-                .style("top", (event.pageY - 50) + "px")
-                .style("left", (event.pageX) + "px")
-        })
-        .on("mouseout", () => {
-            tooltip
-                .style("visibility", "hidden")
-        });
-
-    var input = body.append('select')
+    var input = d3.select(`#${selector}-dropdown`)
+        .append('select')
         .attr('id', 'optionSelect')
         .on('change', update)
         .selectAll('option')
@@ -53,25 +98,25 @@
         .text(d => d.text)
 
     body.append('br')
-    
+
     // add simulation button
-    var button = body.append("button")
-    .text("Demo")
-    .attr("id", "buttonCentre")
-    .attr("class", "button")
-    .attr("background-color", "#ccc")
-    .on('click', simulate);
+    // var button = body.append("button")
+    //     .text("Demo")
+    //     .attr("id", "buttonCentre")
+    //     .attr("class", "button")
+    //     .attr("background-color", "#ccc")
+    //     .on('click', simulate);
 
     // margins for SVG
     const margin = {
-        left: 100,
-        right: 100,
-        top: 100,
-        bottom: 100
+        left: 50,
+        right: 50,
+        top: 50,
+        bottom: 50
     }
 
     // responsive width & height
-    const svgWidth = parseInt(d3.select(selector).style('width'), 10) / 2
+    const svgWidth = parseInt(d3.select(visSelector).style('width'), 10)
     const svgHeight = svgWidth
 
     // helper calculated variables for inner width & height
@@ -81,9 +126,9 @@
 
     // add SVG
 
-    d3.select(`${selector} svg`).remove();
+    d3.select(`${visSelector} svg`).remove();
 
-    const svg = d3.select(selector)
+    const svg = d3.select(visSelector)
         .append('svg')
         .attr('height', svgHeight)
         .attr('width', svgWidth)
@@ -146,17 +191,25 @@
         .call(yAxisGrid);
 
     svg.append('text')
-    .text('Actual Score')
-    .attr('x', width / 2)
-    .attr('y', height + (margin.bottom / 2))
-    .attr('text-anchor',"middle")
-    .attr('fill', 'white')
+        .text('Actual vs. Predicted Study Team Champion Scores')
+        .attr('x', width / 2)
+        .attr('y', -(margin.top / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('font-style', 'italic')
 
     svg.append('text')
-    .text('Predicted Score')
-    .attr('text-anchor',"middle")
-    .attr('fill', 'white')
-    .attr('transform', `translate(${-(margin.left/2)},${height /2})  rotate(-90)`)
+        .text('Actual Score')
+        .attr('x', width / 2)
+        .attr('y', height + (margin.bottom / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+
+    svg.append('text')
+        .text('Predicted Score')
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('transform', `translate(${-(margin.left / 2)},${height / 2})  rotate(-90)`)
 
     ////////////////////////////////////
     /////////// data points ////////////
@@ -215,6 +268,20 @@
         });
 
 
+
+    let columns = ['variables', 'direction', 'p value']
+
+    var table = d3.select('#table').append("table"),
+        thead = table.append("thead"),
+        tbody = table.append("tbody");
+
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+        .text(d => d.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
+
     function update(val) {
 
         if (val) step = val.target.value;
@@ -225,17 +292,40 @@
         lines.attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
         lines.attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
 
+        d3.select('#model-title').text(steps.find(d => d.value == step).text + ' Model')
+
+        d3.select('#variance')
+            .data(regressionLines.filter((d, i) => models[i] == step))
+            .join("span")
+            .text(d => parseInt(d.rSquared * 100) + '%')
+            .style('color', (d, i) => colorScale(step))
+
+        var rows = tbody.selectAll("tr")
+            .data(info.filter(d => d.model == step))
+            .join("tr");
+
+        var cells = rows.selectAll("td")
+            .data(function (row) {
+                return columns.map(function (column) {
+                    return { value: row[column] };
+                });
+            })
+            .join("td")
+            .text(d => d.value);
+
         return step
     }
 
-    function simulate(){
+    update()
+
+
+    function simulate() {
 
         const sim_time = 1000
         window.clearTimeout()
 
         step = steps[0].value
         update()
-        span.dispatch("mouseover")
 
         setTimeout(() => {
             points.dispatch("mouseover")
@@ -253,7 +343,6 @@
         setTimeout(() => {
             step = steps[0].value
             update()
-            span.dispatch("mouseout")
         }, sim_time * 4);
     }
 
