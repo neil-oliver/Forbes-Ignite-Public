@@ -1,13 +1,62 @@
 (async () => {
     let data = await d3.csv('https://raw.githubusercontent.com/neil-oliver/Forbes-Ignite-Public/main/data/Forbes%20Wrangled%20Individual%20Data.csv')
 
-    let step = 'random';
+    let step = 'pymetrics';
     let selector = '#bubbles';
 
     let steps = [
-        { text: 'Random', value: 'random'},
-        { text: 'Grouped', value: 'group_grid'}
-    ]   
+        { text: 'Pymetrics Scores', value: 'pymetrics' },
+        { text: 'Random', value: 'random' },
+        { text: 'Grouped', value: 'group_grid' }
+    ]
+
+    const metrics = [
+        {
+            name: 'Generosity',
+            left: 'Sharing',
+            right: 'Frugal'
+        },
+        {
+            name: 'Learning',
+            left: 'Adaptive',
+            right: 'Consistent'
+        },
+        {
+            name: 'Attention',
+            left: 'Methodical',
+            right: 'Action-biased'
+        },
+        {
+            name: 'Emotion',
+            left: 'Expression-oriented',
+            right: 'Context-oriented'
+        },
+        {
+            name: 'Risk Tolerance',
+            left: 'Adventurous',
+            right: 'Cautious'
+        },
+        {
+            name: 'Decision Making',
+            left: 'Deliberative',
+            right: 'Instinctive'
+        },
+        {
+            name: 'Effort',
+            left: 'Hard-working',
+            right: 'Outcome-driven'
+        },
+        {
+            name: 'Fairness',
+            left: 'Accepting',
+            right: 'Critical'
+        },
+        {
+            name: 'Focus',
+            left: 'Focused',
+            right: 'Multi-tasking'
+        },
+    ]
 
     var body = d3.select(selector)
     body.html("")
@@ -64,7 +113,6 @@
         d.random = { x: Math.random(), y: Math.random() }
     });
 
-
     let group_grid = {}
     Array.from(new Set(data.map(d => d['Group Name']))).forEach((d, i) => {
         group_grid[d] = { x: Math.floor(i / 5) / 5, y: (i % 5) / 5 }
@@ -74,7 +122,23 @@
         d.group_grid = group_grid[d['Group Name']]
     })
 
-    console.log(group_grid)
+    const yScale = d3.scalePoint()
+        .range([1, 0])
+        .domain(metrics.map(m => m.name))
+
+    const xScale = d3.scaleLinear()
+        .range([0, 1])
+        .domain([-4, 4])
+
+    let wrangled = []
+
+    metrics.forEach((metric, index) => {
+        data.forEach(d => {
+            wrangled.push({ ...d, pymetrics: { x: xScale(d[metric.name]), y: yScale(metric.name) }, i: index })
+        })
+    })
+
+    data = wrangled
 
     console.log(data)
 
@@ -88,13 +152,21 @@
     //////////////scales////////////////
     ////////////////////////////////////
 
-    // time scale for X axis
-    const xScale = d3.scaleLinear()
+    // left axis 
+    const yLeft = d3.scalePoint()
+        .range([0, height])
+        .domain(metrics.map(m => m.left))
+
+    // right axis
+    const yRight = d3.scalePoint()
+        .range([0, height])
+        .domain(metrics.map(m => m.right))
+
+    const xGridScale = d3.scaleLinear()
         .range([0, width])
         .domain([0, 1])
 
-    // abritrary Y scale for health metrics
-    const yScale = d3.scaleLinear()
+    const yGridScale = d3.scaleLinear()
         .range([height, 0])
         .domain([0, 1])
 
@@ -109,8 +181,8 @@
     ////////////////////////////////////   
 
     data.forEach(d => {
-        d.y = yScale(0.5)
-        d.x = xScale(0.5)
+        d.y = yGridScale(0.5)
+        d.x = xGridScale(0.5)
     })
 
     function tick() {
@@ -125,21 +197,21 @@
         .join('circle')
         .attr('r', radius)
         .attr('fill', d => colorScale(d[group]))
-        .attr('cy', d => yScale(d[step]))
-        .attr('cx', d => xScale(d[step]))
+        .attr('cy', d => yGridScale(d[step]))
+        .attr('cx', d => xGridScale(d[step]))
         .attr('class', 'balls')
 
 
     var simulation = d3.forceSimulation(data)
         .force('y', d3.forceY(d =>
-            yScale(d[step].y)
+            yGridScale(d[step].y)
         ).strength(0.5)
         )
         .force('x', d3.forceX(d =>
-            xScale(d[step].x)
+            xGridScale(d[step].x)
         ).strength(0.5)
         )
-        .force('collide', d3.forceCollide(radius * 1.1))
+        .force('collide', d3.forceCollide(d => step != 'pymetrics' && d.i != 0 ? 0 : radius * 1.1))
         .alphaDecay(0.01)
         .alpha(0.15)
         .on('tick', tick)
@@ -150,18 +222,66 @@
         simulation.alphaDecay(0.1);
     }, 8000);
 
+    ////////////////////////////////////
+    ///////////////axis/////////////////
+    ////////////////////////////////////
+
+
+    // Left axis
+    const yAxisLeft = d3.axisLeft(yLeft)
+
+    // Left Labels
+    const leftAxisLabels = svg.append("g")
+        .attr("class", 'grid')
+        .attr("id", "y-axis-left")
+
+
+    // Right axis
+    const yAxisRight = d3.axisRight(yRight)
+
+    // Right Labels
+    const rightAxisLabels = svg.append("g")
+        .attr("class", 'grid')
+        .attr("id", "y-axis-right")
+
+
+    update()
+
     function update(val) {
 
-        console.log(val)
+        if (val) step = val.target.value;
 
-        step = val.target.value;
+        balls
+            .attr('opacity', d => step != 'pymetrics' && d.i != 0 ? 0 : 1)
+            .attr('r', d => step != 'pymetrics' && d.i != 0 ? 0 : radius)
+
+        simulation.force('collide', d3.forceCollide(d => step != 'pymetrics' && d.i != 0 ? 0 : radius * 1.1))
+
+        if (step == 'pymetrics') {
+            leftAxisLabels.call(yAxisLeft.tickSize(-width))
+                .selectAll('text')
+                .attr('text-anchor', 'start')
+                .attr('dy', '-1em')
+                .attr('font-size', '1.2em')
+
+            rightAxisLabels.call(yAxisRight.tickSize(-width))
+                .selectAll('text')
+                .attr("transform", "translate(" + width + ",0)")
+                .attr('text-anchor', 'end')
+                .attr('dy', '-1em')
+                .attr('font-size', '1.2em')
+        } else {
+            leftAxisLabels.html(null)
+            rightAxisLabels.html(null)
+        }
+
 
         simulation.force('x', d3.forceX(function (d) {
-            return xScale(d[step].x)
+            return xGridScale(d[step].x)
         }))
 
         simulation.force('y', d3.forceY(function (d) {
-            return yScale(d[step].y)
+            return yGridScale(d[step].y)
         }))
 
 
