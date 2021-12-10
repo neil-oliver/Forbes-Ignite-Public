@@ -19,6 +19,7 @@
                 by model
                 </div>
                 <div id="table"></div>
+                <div id="tooltip"></div>
             </div>
         </div>
     </div>
@@ -56,6 +57,10 @@
             width: 100%;
             text-align: left;
         }
+
+        #tooltip{
+            border-radius:5px;
+        }
     `
 
     var styleSheet = document.createElement("style")
@@ -79,13 +84,7 @@
     body.html("")
 
     // create a tooltip
-    var tooltip = body
-        .append("div")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("pointer-events", "none")
-        .attr("class", "tooltip")
-
+    var tooltip = d3.select("#tooltip")
 
     var input = d3.select(`#${selector}-dropdown`)
         .append('select')
@@ -100,12 +99,12 @@
     body.append('br')
 
     // add simulation button
-    // var button = body.append("button")
-    //     .text("Demo")
-    //     .attr("id", "buttonCentre")
-    //     .attr("class", "button")
-    //     .attr("background-color", "#ccc")
-    //     .on('click', simulate);
+    var button = body.append("button")
+        .text("Demo")
+        .attr("id", "buttonCentre")
+        .attr("class", "button")
+        .attr("background-color", "#ccc")
+        .on('click', simulate);
 
     // margins for SVG
     const margin = {
@@ -224,12 +223,14 @@
         .attr("y1", d => yScale(d[0][1]))
         .attr("y2", d => yScale(d[1][1]))
         .attr("stroke", (d, i) => colorScale(models[i]))
+        .attr('stroke-width', (d, i) => models[i] == step || models[i] == 'perfect' ? 2 : 3)
         .attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
         .attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
         .on("mouseover", () => {
             tooltip
                 .text("line text")
                 .style("visibility", "visible")
+                .style("background-color", "grey")
 
         })
         .on("mousemove", (event) => {
@@ -240,6 +241,8 @@
         .on("mouseout", () => {
             tooltip
                 .style("visibility", "hidden")
+                .style("background-color", "")
+
         });
 
     let points = svg.selectAll('.points')
@@ -256,6 +259,7 @@
             tooltip
                 .text("point text")
                 .style("visibility", "visible")
+                .style("background-color", "grey")
         })
         .on("mousemove", (event) => {
             tooltip
@@ -265,7 +269,70 @@
         .on("mouseout", () => {
             tooltip
                 .style("visibility", "hidden")
+                .style("background-color", "")
+
         });
+
+    //legend
+
+    let legendX = 20
+    let legendY = 20
+
+    let legendBox = svg.append('rect')
+        .attr("x", legendX-10)
+        .attr("y", legendY-10)
+        .attr("width", 200)
+        .attr("height", 100)
+        .attr("fill", 'rgba(100,100,100,0.2)')
+
+        svg.append('text')
+        .attr("x", legendX + 10)
+        .attr("y", legendY + 10)
+        .text("LEGEND")
+        .attr("fill", "grey")
+
+    let regressionLine = svg.append('line')
+        .attr("x1", legendX + 10)
+        .attr("x2", legendX + 30)
+        .attr("y1", legendY + 50)
+        .attr("y2", legendY + 50)
+        .attr("stroke", colorScale(step))
+        .attr("stroke-width", 3)
+
+        svg.append('text')
+        .attr("x", legendX + 40)
+        .attr("y", legendY + 50)
+        .text("Model Regression")
+        .attr("fill", "grey")
+        .attr("dominant-baseline", "middle")
+
+    let perfectLine = svg.append('line')
+        .attr("x1", legendX + 10)
+        .attr("x2", legendX + 30)
+        .attr("y1", legendY + 70)
+        .attr("y2", legendY + 70)
+        .attr("stroke", colorScale(steps[0].value))
+        .attr("stroke-width", 2)
+
+        svg.append('text')
+        .attr("x", legendX + 40)
+        .attr("y", legendY + 70)
+        .text("Perfect Prediction")
+        .attr("fill", "grey")
+        .attr("dominant-baseline", "middle")
+
+    let teamPoint = svg.append('circle')
+        .attr('r', radius)
+        .attr('fill', colorScale(step))
+        .attr('cx', legendX + 20)
+        .attr('cy', legendY + 30)
+
+        svg.append('text')
+        .attr("x", legendX + 40)
+        .attr("y", legendY + 30)
+        .text("Perfect Prediction")
+        .attr("fill", "grey")
+        .attr("dominant-baseline", "middle")
 
 
 
@@ -285,6 +352,9 @@
     function update(val) {
 
         if (val) step = val.target.value;
+
+        regressionLine.attr("stroke", colorScale(step))
+        teamPoint.attr('fill', colorScale(step))
 
         points.attr('fill-opacity', d => d.model == step || d.model == 'perfect' ? 1 : 0)
         points.attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
@@ -321,7 +391,7 @@
 
     function simulate() {
 
-        const sim_time = 1000
+        const sim_time = 2000
         window.clearTimeout()
 
         step = steps[0].value
