@@ -5,11 +5,6 @@
     let selector = '#bubbles';
     let groupGridTimeout;
 
-    let steps = [
-        { text: 'Pymetrics Scores', value: 'pymetrics' },
-        { text: 'Random', value: 'random' },
-    ]
-
     const metrics = [
         {
             name: 'Generosity',
@@ -60,19 +55,6 @@
 
     var body = d3.select(selector)
     body.html("")
-
-    var span = body.append('span')
-        .text('Select Option: ')
-    var input = body.append('select')
-        .attr('id', 'optionSelect')
-        .on('change', update)
-        .selectAll('option')
-        .data(steps)
-        .enter()
-        .append('option')
-        .attr('value', function (d) { return d.value })
-        .text(function (d) { return d.text; })
-    body.append('br')
 
     // margins for SVG
     const margin = {
