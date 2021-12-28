@@ -145,7 +145,7 @@
     ////////////////////////////////////
     //////////////globals///////////////
     ////////////////////////////////////
-    const radius = 3
+    const radius = 4
     const group = 'PCA Group'
 
     ////////////////////////////////////
@@ -190,6 +190,16 @@
             .attr("cx", function (d) { return d.x })
             .attr("cy", function (d) { return d.y });
     }
+
+    let lines = svg.selectAll('.lines')
+        .data(yLeft.domain())
+        .join('line')
+        .attr('y1', d => yLeft(d))
+        .attr('y2', d => yLeft(d))
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('stroke', 'grey')
+        .attr('class', 'lines')
 
 
     let balls = svg.selectAll('.balls')
@@ -258,13 +268,17 @@
         simulation.force('collide', d3.forceCollide(d => step != 'pymetrics' && d.i != 0 ? 0 : radius * 1.1))
 
         if (step == 'pymetrics') {
-            leftAxisLabels.call(yAxisLeft.tickSize(-width))
+            leftAxisLabels
+                .call(yAxisLeft)
+                .call(g => g.select(".domain, .tick").remove())
                 .selectAll('text')
                 .attr('text-anchor', 'start')
                 .attr('dy', '-1em')
                 .attr('font-size', '1.2em')
 
-            rightAxisLabels.call(yAxisRight.tickSize(-width))
+            rightAxisLabels
+                .call(yAxisRight)
+                .call(g => g.select(".domain, .tick").remove())
                 .selectAll('text')
                 .attr("transform", "translate(" + width + ",0)")
                 .attr('text-anchor', 'end')
