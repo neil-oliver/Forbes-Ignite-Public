@@ -42,6 +42,10 @@
             width: 100%;
         }
 
+        #model-title{
+            margin: 20px 0 20px 0;
+        }
+
         #variance-container{
             display:flex;
             align-items: center;
@@ -61,13 +65,10 @@
             transition: all 1s;
         }
 
-        div#${selector} {
-            padding: 10px 0 10px 0;
-        }
-
         table {
             width: 100%;
             text-align: left;
+            margin: 20px 0 20px 0;
         }
 
         #tooltip{
