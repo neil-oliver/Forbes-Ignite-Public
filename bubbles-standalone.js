@@ -238,7 +238,7 @@
 
 
     // Left axis
-    const yAxisLeft = d3.axisLeft(yLeft)
+    const yAxisLeft = d3.axisLeft(yLeft).tickSize(0)
 
     // Left Labels
     const leftAxisLabels = svg.append("g")
@@ -247,7 +247,7 @@
 
 
     // Right axis
-    const yAxisRight = d3.axisRight(yRight)
+    const yAxisRight = d3.axisRight(yRight).tickSize(0)
 
     // Right Labels
     const rightAxisLabels = svg.append("g")
@@ -270,7 +270,7 @@
         if (step == 'pymetrics') {
             leftAxisLabels
                 .call(yAxisLeft)
-                .call(g => g.select(".domain, .tick").remove())
+                .call(g => g.select(".domain").remove())
                 .selectAll('text')
                 .attr('text-anchor', 'start')
                 .attr('dy', '-1em')
@@ -278,7 +278,7 @@
 
             rightAxisLabels
                 .call(yAxisRight)
-                .call(g => g.select(".domain, .tick").remove())
+                .call(g => g.select(".domain").remove())
                 .selectAll('text')
                 .attr("transform", "translate(" + width + ",0)")
                 .attr('text-anchor', 'end')
