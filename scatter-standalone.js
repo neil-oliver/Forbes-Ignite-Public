@@ -281,7 +281,7 @@
     let legendBox = svg.append('rect')
         .attr("x", legendX-10)
         .attr("y", legendY-10)
-        .attr("width", 200)
+        .attr("width", 260)
         .attr("height", 100)
         .attr("fill", 'rgba(100,100,100,0.2)')
 
@@ -327,10 +327,10 @@
         .attr('cx', legendX + 20)
         .attr('cy', legendY + 30)
 
-        svg.append('text')
+    let modelText = svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 30)
-        .text("Perfect Prediction")
+        .text("Perfect Score")
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
@@ -352,6 +352,8 @@
     function update(val) {
 
         if (val) step = val.target.value;
+
+        modelText.text(steps.find(d => d.value == step).text + " Score")
 
         regressionLine.attr("stroke", colorScale(step))
         teamPoint.attr('fill', colorScale(step))
