@@ -83,7 +83,7 @@
     }
 
     // responsive width & height
-    const svgWidth = parseInt(d3.select(selector).style('width'), 10) / 2
+    const svgWidth = parseInt(d3.select(selector).style('width'), 10)
     const svgHeight = svgWidth
 
     // helper calculated variables for inner width & height
