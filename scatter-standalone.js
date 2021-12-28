@@ -116,7 +116,7 @@
 
     // add simulation button
     var button = d3.select(`#${selector}-demo-button`)
-    .append("button")
+        .append("button")
         .text("Demo")
         .attr("id", "buttonCentre")
         .attr("class", "button")
@@ -190,42 +190,6 @@
         regressionLines.push(linearRegression(data.filter(d => d.model == model)))
     }
 
-    ////////////////////////////////////
-    ///////////// axis /////////////////
-    ////////////////////////////////////   
-
-    const xAxisGrid = d3.axisBottom(xScale).tickSize(-height).ticks(3)
-    const yAxisGrid = d3.axisLeft(yScale).tickSize(-width).ticks(3)
-
-    svg.append('g')
-        .attr('class', 'x axis-grid')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxisGrid);
-
-    svg.append('g')
-        .attr('class', 'y axis-grid')
-        .call(yAxisGrid);
-
-    svg.append('text')
-        .text('Actual vs. Predicted Study Team Champion Scores')
-        .attr('x', width / 2)
-        .attr('y', -(margin.top / 2))
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-        .attr('font-style', 'italic')
-
-    svg.append('text')
-        .text('Actual Score')
-        .attr('x', width / 2)
-        .attr('y', height + (margin.bottom / 2))
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-
-    svg.append('text')
-        .text('Predicted Score')
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-        .attr('transform', `translate(${-(margin.left / 2)},${height / 2})  rotate(-90)`)
 
     ////////////////////////////////////
     /////////// data points ////////////
@@ -296,13 +260,13 @@
     let legendY = 20
 
     let legendBox = svg.append('rect')
-        .attr("x", legendX-10)
-        .attr("y", legendY-10)
+        .attr("x", legendX - 10)
+        .attr("y", legendY - 10)
         .attr("width", 260)
         .attr("height", 100)
         .attr("fill", 'rgba(100,100,100,0.2)')
 
-        svg.append('text')
+    svg.append('text')
         .attr("x", legendX + 10)
         .attr("y", legendY + 10)
         .text("LEGEND")
@@ -316,7 +280,7 @@
         .attr("stroke", colorScale(step))
         .attr("stroke-width", 3)
 
-        svg.append('text')
+    svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 50)
         .text("Model Regression")
@@ -331,7 +295,7 @@
         .attr("stroke", colorScale(steps[0].value))
         .attr("stroke-width", 2)
 
-        svg.append('text')
+    svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 70)
         .text("Perfect Prediction")
@@ -364,11 +328,48 @@
         .append("th")
         .text(d => d.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
 
+    ////////////////////////////////////
+    ///////////// axis /////////////////
+    ////////////////////////////////////   
+
+    const xAxisGrid = d3.axisBottom(xScale).tickSize(-height).ticks(3)
+    const yAxisGrid = d3.axisLeft(yScale).tickSize(-width).ticks(3)
+
+    svg.append('g')
+        .attr('class', 'x axis-grid')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxisGrid);
+
+    svg.append('g')
+        .attr('class', 'y axis-grid')
+        .call(yAxisGrid);
+
+    svg.append('text')
+        .text('Actual vs. Predicted Study Team Champion Scores')
+        .attr('x', width / 2)
+        .attr('y', -(margin.top / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('font-style', 'italic')
+
+    svg.append('text')
+        .text('Actual Score')
+        .attr('x', width / 2)
+        .attr('y', height + (margin.bottom / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+
+    svg.append('text')
+        .text('Predicted Score')
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('transform', `translate(${-(margin.left / 2)},${height / 2})  rotate(-90)`)
+
     function update(val) {
 
         if (val) step = val.target.value;
 
-        if (step == 'perfect'){
+        if (step == 'perfect') {
             d3.select('#table').style('visibility', 'hidden')
         } else {
             d3.select('#table').style('visibility', 'visible')
