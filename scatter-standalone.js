@@ -10,13 +10,16 @@
         <div id="${selector}-vis" class="column"></div>
         <div id="${selector}-info" class="column">
             <div class="inner-container">
+                <div id="${selector}-demo-button"></div>
                 <div><h1 id="model-title">Perfect Model</h1></div>
                 <div id="${selector}-dropdown"></div>
-                <span id="variance"></span>
-                <div id="variance-label">
-                Variance<br>
-                explained<br>
-                by model
+                <div id="variance-container">
+                    <div id="variance"></div>
+                    <div id="variance-label">
+                    Variance<br>
+                    explained<br>
+                    by model
+                    </div>
                 </div>
                 <div id="table"></div>
                 <div id="tooltip"></div>
@@ -31,18 +34,27 @@
         }
 
         .column {
-            flex: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 50%;
         }
 
         .inner-container {
+            padding-top:200px;
             width: 100%;
+        }
+
+        #variance-container{
+            display:flex;
+            align-items: center;
+            margin: 20px 0 20px 0;
         }
 
         #variance{
             font-size:3em;
+        }
+
+        #variance-label{
+            font-size:0.8em;
+            padding-left:20px;
         }
 
         .${selector}-vis line point path circle {
@@ -99,7 +111,8 @@
     body.append('br')
 
     // add simulation button
-    var button = body.append("button")
+    var button = d3.select(`#${selector}-demo-button`)
+    .append("button")
         .text("Demo")
         .attr("id", "buttonCentre")
         .attr("class", "button")
@@ -334,8 +347,6 @@
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
-
-
     let columns = ['variables', 'direction', 'p value']
 
     var table = d3.select('#table').append("table"),
@@ -352,6 +363,12 @@
     function update(val) {
 
         if (val) step = val.target.value;
+
+        if (step == 'perfect'){
+            d3.select('#table').style('visibility', 'hidden')
+        } else {
+            d3.select('#table').style('visibility', 'visible')
+        }
 
         modelText.text(steps.find(d => d.value == step).text + " Score")
 
