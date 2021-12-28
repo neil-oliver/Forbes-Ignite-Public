@@ -49,7 +49,7 @@
             transition: all 1s;
         }
 
-        div${selector} {
+        div#${selector} {
             padding: 10px 0 10px 0;
         }
 
