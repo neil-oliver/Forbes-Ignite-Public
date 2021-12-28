@@ -115,7 +115,7 @@
 
     let group_grid = {}
     Array.from(new Set(data.map(d => d['Group Name']))).forEach((d, i) => {
-        group_grid[d] = { x: Math.floor(i / 5) / 5, y: (i % 5) / 5 }
+        group_grid[d] = { x: Math.floor(i / 5) / 4, y: (i % 5) / 4 }
     })
 
     data.forEach(d => {
@@ -131,7 +131,6 @@
         .domain([-4, 4])
 
     let wrangled = []
-
     metrics.forEach((metric, index) => {
         data.forEach(d => {
             wrangled.push({ ...d, pymetrics: { x: xScale(d[metric.name]), y: yScale(metric.name) }, i: index })
