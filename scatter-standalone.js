@@ -11,7 +11,7 @@
         <div id="${selector}-info" class="column">
             <div class="inner-container">
                 <div id="${selector}-demo-button"></div>
-                <div><h1 id="model-title">Perfect Model</h1></div>
+                <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-dropdown"></div>
                 <div id="variance-container">
                     <div id="variance"></div>
