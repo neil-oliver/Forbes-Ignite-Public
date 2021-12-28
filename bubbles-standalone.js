@@ -256,6 +256,30 @@
 
     update()
 
+    const cognitiveAssessment = document.querySelector('#cognitive-assessment');
+
+    const cognitiveObserver = new IntersectionObserver((entry, observer) => {
+
+        if (entry[0].isIntersecting == true && step !== 'pymetrics'){
+            step = 'pymetrics'
+            update()
+        }
+    });
+
+    cognitiveObserver.observe(cognitiveAssessment);
+
+    const groupAssignment = document.querySelector('#group-assignment');
+
+    const groupObserver = new IntersectionObserver((entry, observer) => {
+
+        if (entry[0].isIntersecting == true && step == 'pymetrics'){
+            step = 'random'
+            update()
+        }
+    });
+
+    groupObserver.observe(groupAssignment);
+
     function update(val) {
 
         clearTimeout(groupGridTimeout);
