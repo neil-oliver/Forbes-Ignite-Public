@@ -73,6 +73,10 @@
         #tooltip{
             border-radius:5px;
         }
+
+        .axis-grid line, path{
+            opacity: 0.1;
+        }
     `
 
     var styleSheet = document.createElement("style")
