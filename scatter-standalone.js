@@ -31,6 +31,7 @@
     var styles = `
         .row {
             display: flex;
+            flex-wrap: wrap;
         }
 
         .column {
@@ -42,21 +43,21 @@
             width: 100%;
         }
 
-        #model-title{
+        #model-title {
             margin: 20px 0 20px 0;
         }
 
-        #variance-container{
+        #variance-container {
             display:flex;
             align-items: center;
             margin: 20px 0 20px 0;
         }
 
-        #variance{
+        #variance {
             font-size:3em;
         }
 
-        #variance-label{
+        #variance-label {
             font-size:0.8em;
             padding-left:20px;
         }
@@ -71,12 +72,18 @@
             margin: 20px 0 20px 0;
         }
 
-        #tooltip{
+        #tooltip {
             border-radius:5px;
         }
 
-        .axis-grid line, path{
+        .axis-grid line, path {
             opacity: 0.1;
+        }
+
+        @media (max-width:568px) {
+            .column {
+                width:100%;
+            }
         }
     `
 
