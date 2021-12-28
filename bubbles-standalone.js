@@ -76,10 +76,10 @@
 
     // margins for SVG
     const margin = {
-        left: 100,
-        right: 100,
-        top: 100,
-        bottom: 100
+        left: 10,
+        right: 10,
+        top: 50,
+        bottom: 50
     }
 
     // responsive width & height
