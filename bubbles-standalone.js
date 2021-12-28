@@ -3,11 +3,11 @@
 
     let step = 'pymetrics';
     let selector = '#bubbles';
+    let groupGridTimeout;
 
     let steps = [
         { text: 'Pymetrics Scores', value: 'pymetrics' },
         { text: 'Random', value: 'random' },
-        { text: 'Grouped', value: 'group_grid' }
     ]
 
     const metrics = [
@@ -259,6 +259,8 @@
 
     function update(val) {
 
+        clearTimeout(groupGridTimeout);
+
         if (val) step = val.target.value;
 
         balls
@@ -268,6 +270,8 @@
         simulation.force('collide', d3.forceCollide(d => step != 'pymetrics' && d.i != 0 ? 0 : radius * 1.1))
 
         if (step == 'pymetrics') {
+            lines.attr('opacity', 1)
+
             leftAxisLabels
                 .call(yAxisLeft)
                 .call(g => g.select(".domain").remove())
@@ -287,6 +291,16 @@
         } else {
             leftAxisLabels.html(null)
             rightAxisLabels.html(null)
+            lines.attr('opacity', 0)
+        }
+
+        if (step == 'random') {
+
+            groupGridTimeout = setTimeout(() => {
+                step = 'group_grid'
+                update()
+            }, 2000);
+
         }
 
 
