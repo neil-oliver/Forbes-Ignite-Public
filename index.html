@@ -16,18 +16,26 @@
         color:white;
         font-family: 'Readex Pro', sans-serif;
     }
-    .axis-grid line, path{
-        opacity: 0.1;
-    }
 </style>
 
 <body>
     <div id="bubbles"></div>
+    <div id="cognitive-assessment"></div>
     <div id="scatter"></div>
+    <div>
+        <a id="demographic-stats" href="javascript:void(0)">demographic</a>
+        <a id="cognitive-traits-stats" href="javascript:void(0)">cognitive-traits</a>
+        <a id="cognitive-diversity-stats" href="javascript:void(0)">cognitive-diversity</a>
+        <a id="perception-stats" href="javascript:void(0)">perception</a>
+        <a id="qualitative-stats" href="javascript:void(0)">qualitative</a>
+    </div>
+    <div id="scatter-overview"></div>
+    <div id="group-assignment"></div>
 </body>
 <script src="https://unpkg.com/d3-regression@1.3.9/dist/d3-regression.min.js"></script>
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="bubbles-standalone.js"></script>
 <script src="scatter-standalone.js"></script>
+<script src="scatter-overview-standalone.js"></script>
 
 </html>
