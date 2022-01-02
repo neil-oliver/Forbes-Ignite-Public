@@ -196,8 +196,8 @@
 
     for (let model of models) {
         regressionLines.push(linearRegression(data.filter(d => d.model == model)))
+        regressionLines[regressionLines.length - 1].model = model
     }
-
 
     ////////////////////////////////////
     /////////// data points ////////////
@@ -211,26 +211,43 @@
         .attr("x2", d => xScale(d[1][0]))
         .attr("y1", d => yScale(d[0][1]))
         .attr("y2", d => yScale(d[1][1]))
-        .attr("stroke", (d, i) => colorScale(models[i]))
-        .attr('stroke-width', (d, i) => models[i] == step || models[i] == 'perfect' ? 2 : 3)
-        .attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
-        .attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
-        .on("mouseover", () => {
+        .attr("stroke", (d, i) => colorScale(d.model))
+        .attr('stroke-width', (d, i) => d.model == step || d.model == 'perfect' ? 2 : 3)
+        .attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
+        .attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
+        .on("mouseover", (event) => {
+
+            let data = regressionLines.find(d => d.model == step)
+
+            svg.selectAll('.selected-line-stroke')
+                .data([data])
+                .join('line')
+                .attr("class", "selected-line-stroke")
+                .attr("x1", d => xScale(d[0][0]))
+                .attr("x2", d => xScale(d[1][0]))
+                .attr("y1", d => yScale(d[0][1]))
+                .attr("y2", d => yScale(d[1][1]))
+                .attr("stroke", (d, i) => 'white')
+                .attr('stroke-width', 5)
+                .attr("pointer-events", "none");
+
+            lines
+                .filter(d => d.model == step)
+                .raise();
+
             tooltip
                 .text("line text")
                 .style("visibility", "visible")
-                .style("background-color", "grey")
+                .style("background-color", "grey");
 
         })
-        .on("mousemove", (event) => {
-            tooltip
-                .style("top", (event.pageY - 50) + "px")
-                .style("left", (event.pageX) + "px")
-        })
-        .on("mouseout", () => {
+        .on("mouseout", (event, d) => {
+
+            svg.selectAll('.selected-line-stroke').remove();
+
             tooltip
                 .style("visibility", "hidden")
-                .style("background-color", "")
+                .style("background-color", "");
 
         });
 
@@ -241,28 +258,90 @@
         .attr('fill', d => colorScale(d.model))
         .attr('fill-opacity', d => d.model == step || d.model == 'perfect' ? 1 : 0)
         .attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
+        .attr("stroke", "white")
+        .attr("stroke-width", 0)
         .attr('cy', d => yScale(d.predicted))
         .attr('cx', d => xScale(d.actual))
         .attr('class', 'points')
-        .on("mouseover", () => {
+        .on("mouseover", (event) => {
+
+            d3.select(event.currentTarget)
+                .attr('stroke-width', d => d.model == step ? 1 : 0);
+
+            points
+                .filter(d => d.model == step)
+                .raise();
+
             tooltip
                 .text("point text")
                 .style("visibility", "visible")
-                .style("background-color", "grey")
+                .style("background-color", "grey");
         })
-        .on("mousemove", (event) => {
-            tooltip
-                .style("top", (event.pageY - 50) + "px")
-                .style("left", (event.pageX) + "px")
-        })
-        .on("mouseout", () => {
+        .on("mouseout", (event) => {
+
+            d3.select(event.currentTarget)
+                .attr('stroke-width', 0);
+
             tooltip
                 .style("visibility", "hidden")
-                .style("background-color", "")
+                .style("background-color", "");
 
         });
 
-    //legend
+    let columns = ['variables', 'direction', 'p value']
+
+    var table = d3.select('#table').append("table"),
+        thead = table.append("thead"),
+        tbody = table.append("tbody");
+
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+        .text(d => d.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
+
+    ////////////////////////////////////
+    ///////////// axis /////////////////
+    ////////////////////////////////////   
+
+    const xAxisGrid = d3.axisBottom(xScale).tickSize(-height).ticks(3)
+    const yAxisGrid = d3.axisLeft(yScale).tickSize(-width).ticks(3)
+
+    svg.append('g')
+        .attr('class', 'x axis-grid')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxisGrid);
+
+    svg.append('g')
+        .attr('class', 'y axis-grid')
+        .call(yAxisGrid);
+
+    svg.append('text')
+        .text('Actual vs. Predicted Study Team Champion Scores')
+        .attr('x', width / 2)
+        .attr('y', -(margin.top / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('font-style', 'italic')
+
+    svg.append('text')
+        .text('Actual Score')
+        .attr('x', width / 2)
+        .attr('y', height + (margin.bottom / 2))
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+
+    svg.append('text')
+        .text('Predicted Score')
+        .attr('text-anchor', "middle")
+        .attr('fill', 'white')
+        .attr('transform', `translate(${-(margin.left / 2)},${height / 2})  rotate(-90)`)
+
+
+    ////////////////////////////////////
+    /////////// legend /////////////////
+    ////////////////////////////////////   
 
     let legendX = 20
     let legendY = 20
@@ -323,56 +402,6 @@
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
-    let columns = ['variables', 'direction', 'p value']
-
-    var table = d3.select('#table').append("table"),
-        thead = table.append("thead"),
-        tbody = table.append("tbody");
-
-    thead.append("tr")
-        .selectAll("th")
-        .data(columns)
-        .enter()
-        .append("th")
-        .text(d => d.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
-
-    ////////////////////////////////////
-    ///////////// axis /////////////////
-    ////////////////////////////////////   
-
-    const xAxisGrid = d3.axisBottom(xScale).tickSize(-height).ticks(3)
-    const yAxisGrid = d3.axisLeft(yScale).tickSize(-width).ticks(3)
-
-    svg.append('g')
-        .attr('class', 'x axis-grid')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxisGrid);
-
-    svg.append('g')
-        .attr('class', 'y axis-grid')
-        .call(yAxisGrid);
-
-    svg.append('text')
-        .text('Actual vs. Predicted Study Team Champion Scores')
-        .attr('x', width / 2)
-        .attr('y', -(margin.top / 2))
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-        .attr('font-style', 'italic')
-
-    svg.append('text')
-        .text('Actual Score')
-        .attr('x', width / 2)
-        .attr('y', height + (margin.bottom / 2))
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-
-    svg.append('text')
-        .text('Predicted Score')
-        .attr('text-anchor', "middle")
-        .attr('fill', 'white')
-        .attr('transform', `translate(${-(margin.left / 2)},${height / 2})  rotate(-90)`)
-
     function update(val) {
 
         if (val) step = val.target.value;
@@ -391,13 +420,13 @@
         points.attr('fill-opacity', d => d.model == step || d.model == 'perfect' ? 1 : 0)
         points.attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
 
-        lines.attr("pointer-events", (d, i) => models[i] == step || models[i] == 'perfect' ? "auto" : "none")
-        lines.attr('stroke-opacity', (d, i) => models[i] == step || models[i] == 'perfect' ? 1 : 0.2)
+        lines.attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
+        lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
 
         d3.select('#model-title').text(steps.find(d => d.value == step).text + ' Model')
 
         d3.select('#variance')
-            .data(regressionLines.filter((d, i) => models[i] == step))
+            .data(regressionLines.filter((d, i) => d.model == step))
             .join("span")
             .text(d => parseInt(d.rSquared * 100) + '%')
             .style('color', (d, i) => colorScale(step))
@@ -423,29 +452,33 @@
 
     function simulate() {
 
-        const sim_time = 2000
+        const sim_time = 3000
         window.clearTimeout()
 
         step = steps[0].value
         update()
 
+        points.dispatch("mouseover")
+
         setTimeout(() => {
-            points.dispatch("mouseover")
+            points.dispatch("mouseout")
+            lines.dispatch("mouseover")
         }, sim_time);
 
         setTimeout(() => {
+            lines.dispatch("mouseout")
+            step = steps[1].value
+            update()
             lines.dispatch("mouseover")
+            points.dispatch("mouseover")
         }, sim_time * 2);
 
         setTimeout(() => {
-            step = steps[1].value
-            update()
-        }, sim_time * 3);
-
-        setTimeout(() => {
+            points.dispatch("mouseout")
+            lines.dispatch("mouseout")
             step = steps[0].value
             update()
-        }, sim_time * 4);
+        }, sim_time * 3);
     }
 
 })()
