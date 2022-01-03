@@ -423,7 +423,6 @@
 
 
         } else if (stage == 3) {
-            pointsOut()
             lineOut()
             points.transition().attr('cy', d => yScale(d.predicted))
             tooltip.text("The predicted score of each study group is plotted along the y-axis.")
