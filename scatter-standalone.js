@@ -12,7 +12,7 @@
         <div id="${selector}-info" class="column">
             <div class="inner-container">
                 <div id="${selector}-demo-button"></div>
-                <div id="${selector}-stage-select"></div>
+                <div class="hidden" id="${selector}-stage-select"></div>
                 <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-dropdown"></div>
                 <div id="variance-container">
@@ -399,7 +399,7 @@
     }
 
     function walkthrough() {
-        
+
         d3.select("#demoButton").text(stage == 0 ? "How do i interpret this graph?" : "Okay I understand now")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
