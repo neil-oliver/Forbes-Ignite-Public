@@ -427,7 +427,7 @@
         } else if (stage == 3) {
             lineOut()
             points.transition().attr('cy', d => yScale(d.predicted))
-            lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
+            lines.attr('stroke-opacity', 0)
             tooltip.text("The predicted score of each study group is plotted along the y-axis.")
 
         } else if (stage == 4) {
