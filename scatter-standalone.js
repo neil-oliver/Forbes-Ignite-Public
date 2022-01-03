@@ -322,9 +322,9 @@
         if (val) step = val.target.value;
 
         if (step == 'perfect') {
-            d3.select('#table').style('visibility', 'hidden')
+            d3.select(`#${selector}-table`).style('visibility', 'hidden')
         } else {
-            d3.select('#table').style('visibility', 'visible')
+            d3.select(`#${selector}-table`).style('visibility', 'visible')
         }
 
         regressionLine.attr("stroke", colorScale(step))
@@ -447,6 +447,7 @@
             lineOut()
             lineIn()
             pointsIn()
+            d3.select(`#${selector}-table`).classed('highlight', false)
             tooltip.text("Use the ‘select model’ dropdown to explore different models.")
 
         } else if (stage == 6) {
