@@ -215,7 +215,7 @@
         .attr("y2", d => yScale(d[1][1]))
         .attr("stroke", (d, i) => colorScale(d.model))
         .attr('stroke-width', (d, i) => d.model == step || d.model == 'perfect' ? 2 : 3)
-        .attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
+        .attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0)
         .attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
         .on("mouseover", (event) => {
 
@@ -423,7 +423,7 @@
         points.attr("pointer-events", d => d.model == step || d.model == 'perfect' ? "auto" : "none")
 
         lines.attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
-        lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
+        lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0)
 
         d3.select('#variance-model-title').text(steps.find(d => d.value == step).text + ' Model')
 
