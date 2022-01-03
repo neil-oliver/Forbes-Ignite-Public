@@ -3,8 +3,8 @@ variance,model,variables,direction,p value
 79%,demographic,age diversity,+,0.093
 79%,demographic,LGBT diversity,+,0.011
 79%,demographic,language diversity,+,0.000048
-39%,cognitive-diversity,fairness variation,-,0.007
-45%,cognitive-traits,fairness mean,+,0.003
+45%,cognitive-diversity,fairness variation,-,0.007
+39%,cognitive-traits,fairness mean,+,0.003
 69%,perception,number of participants,-,0.009
 69%,perception,avg neg emotions_self,-,0.021
 69%,perception,avg value agreement with the most dominant speaker,+,0.006
