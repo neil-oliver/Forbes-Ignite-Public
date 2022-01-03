@@ -60,7 +60,7 @@
     // add simulation button
     var button = d3.select(`#${selector}-demo-button`)
         .append("button")
-        .text("Demo")
+        .text("How do i interpret this graph?")
         .attr("id", "buttonCentre")
         .attr("class", "button")
         .attr("background-color", "#ccc")
