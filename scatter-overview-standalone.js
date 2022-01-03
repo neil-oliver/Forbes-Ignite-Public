@@ -102,27 +102,27 @@
 
     let step = steps[0].value;
 
-    d3.select('#demographic-stats').on("click", function () {
+    d3.selectAll('.demographic-stats').on("click", function () {
         step = 'demographic'
         update()
     });
 
-    d3.select('#cognitive-traits-stats').on("click", function () {
+    d3.selectAll('.cognitive-traits-stats').on("click", function () {
         step = 'cognitive-traits'
         update()
     });
 
-    d3.select('#cognitive-diversity-stats').on("click", function () {
+    d3.selectAll('.cognitive-diversity-stats').on("click", function () {
         step = 'cognitive-diversity'
         update()
     });
 
-    d3.select('#perception-stats').on("click", function () {
+    d3.selectAll('.perception-stats').on("click", function () {
         step = 'perception'
         update()
     });
 
-    d3.select('#qualitative-stats').on("click", function () {
+    d3.selectAll('.qualitative-stats').on("click", function () {
         step = 'qualitative'
         update()
     });
