@@ -15,7 +15,7 @@
                 <div class="hidden" id="${selector}-stage-select"></div>
                 <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-dropdown"></div>
-                <div id="variance-container">
+                <div id="${selector}-variance-container">
                     <div id="variance"></div>
                     <div id="variance-label">
                     Variance<br>
@@ -23,7 +23,7 @@
                     by model
                     </div>
                 </div>
-                <div id="table"></div>
+                <div id="${selector}-table"></div>
                 <div class="tooltip" id="scatter-tooltip"></div>
             </div>
         </div>
@@ -205,7 +205,7 @@
 
     let columns = ['variables', 'direction', 'p value']
 
-    var table = d3.select('#table').append("table"),
+    var table = d3.select(`#${selector}-table`).append("table"),
         thead = table.append("thead"),
         tbody = table.append("tbody");
 
@@ -447,18 +447,18 @@
 
             pointsOut()
             lineOut()
-            d3.select(`#table`).classed('highlight', true)
+            d3.select(`#${selector}-table`).classed('highlight', true)
             tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
 
         } else if (stage == 7) {
 
-            d3.select(`#table`).classed('highlight', false)
-            d3.select(`variance-container`).classed('highlight', true)
+            d3.select(`#${selector}-table`).classed('highlight', false)
+            d3.select(`#${selector}-variance-container`).classed('highlight', true)
             tooltip.text("The variance explained by the model measures how well the model performed at predicting champion scores. The closer to 100%, the more accurate the model.")
 
         } else if (stage == 8) {
 
-            d3.select(`#variance-container`).classed('highlight', false)
+            d3.select(`#${selector}-variance-container`).classed('highlight', false)
             step = steps[0].value
             update()
             tooltip.style("visibility", "hidden")
