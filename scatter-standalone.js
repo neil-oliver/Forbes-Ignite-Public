@@ -407,7 +407,7 @@
 
         tooltip.style("visibility", "visible")
 
-        if (stage = 0){
+        if (stage == 0){
             tooltip.style("visibility", "hidden")
         } else if (stage == 1) {
             step = steps[0].value
