@@ -4,6 +4,7 @@
 
     let selector = 'scatter';
     let visSelector = `#${selector}-vis`
+    let stage = 0
 
     document.getElementById(selector).innerHTML = `
     <div class="row">
@@ -11,6 +12,7 @@
         <div id="${selector}-info" class="column">
             <div class="inner-container">
                 <div id="${selector}-demo-button"></div>
+                <div id="${selector}-stage-select"></div>
                 <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-dropdown"></div>
                 <div id="variance-container">
@@ -61,10 +63,46 @@
     var button = d3.select(`#${selector}-demo-button`)
         .append("button")
         .text("How do i interpret this graph?")
-        .attr("id", "buttonCentre")
+        .attr("id", "demoButton")
         .attr("class", "button")
         .attr("background-color", "#ccc")
-        .on('click', simulate);
+        .on('click', () => {
+            if (stage > 0) {
+                stage = 0
+            } else {
+                stage = 1
+            }
+            walkthrough()
+        });
+
+    d3.select(`#${selector}-stage-select`)
+        .append("button")
+        .text("<")
+        .attr("class", "button")
+        .attr("id", "backButton")
+        .attr("background-color", "#ccc")
+        .attr("disabled", stage < 2 ? true : null)
+        .on('click', () => {
+            if (stage <= 1) {
+                stage = stage - 1
+                walkthrough()
+            }
+
+        });
+
+    d3.select(`#${selector}-stage-select`)
+        .append("button")
+        .text(">")
+        .attr("class", "button")
+        .attr("id", "forwardButton")
+        .attr("background-color", "#ccc")
+        .attr("disabled", stage > 7 ? true : null)
+        .on('click', () => {
+            if (stage <= 7) {
+                stage = stage + 1
+                walkthrough()
+            }
+        });
 
     // margins for SVG
     const margin = {
@@ -149,40 +187,7 @@
         .attr("stroke", (d, i) => colorScale(d.model))
         .attr('stroke-width', (d, i) => d.model == step || d.model == 'perfect' ? 2 : 3)
         .attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
-        .attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
-        .on("mouseover", (event) => {
-
-            let data = regressionLines.find(d => d.model == step)
-
-            svg.selectAll('.selected-line-stroke')
-                .data([data])
-                .join('line')
-                .attr("class", "selected-line-stroke")
-                .attr("x1", d => xScale(d[0][0]))
-                .attr("x2", d => xScale(d[1][0]))
-                .attr("y1", d => yScale(d[0][1]))
-                .attr("y2", d => yScale(d[1][1]))
-                .attr("stroke", (d, i) => 'white')
-                .attr('stroke-width', 5)
-                .attr("pointer-events", "none");
-
-            lines
-                .filter(d => d.model == step)
-                .raise();
-
-            tooltip
-                .text("line text")
-                .style("visibility", "visible")
-
-        })
-        .on("mouseout", (event, d) => {
-
-            svg.selectAll('.selected-line-stroke').remove();
-
-            tooltip
-                .style("visibility", "hidden")
-
-        });
+        .attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none");
 
     let points = svg.selectAll('.points')
         .data(data)
@@ -195,29 +200,8 @@
         .attr("stroke-width", 0)
         .attr('cy', d => yScale(d.predicted))
         .attr('cx', d => xScale(d.actual))
-        .attr('class', 'points')
-        .on("mouseover", (event) => {
+        .attr('class', 'points');
 
-            d3.select(event.currentTarget)
-                .attr('stroke-width', d => d.model == step ? 1 : 0);
-
-            points
-                .filter(d => d.model == step)
-                .raise();
-
-            tooltip
-                .text("point text")
-                .style("visibility", "visible")
-        })
-        .on("mouseout", (event) => {
-
-            d3.select(event.currentTarget)
-                .attr('stroke-width', 0);
-
-            tooltip
-                .style("visibility", "hidden")
-
-        });
 
     let columns = ['variables', 'direction', 'p value']
 
@@ -256,14 +240,14 @@
         .attr('fill', 'white')
         .attr('font-style', 'italic')
 
-    svg.append('text')
+    let xAxisLabel = svg.append('text')
         .text('Actual Score')
         .attr('x', width / 2)
         .attr('y', height + (margin.bottom / 2))
         .attr('text-anchor', "middle")
         .attr('fill', 'white')
 
-    svg.append('text')
+    let yAxisLabel = svg.append('text')
         .text('Predicted Score')
         .attr('text-anchor', "middle")
         .attr('fill', 'white')
@@ -378,36 +362,109 @@
 
     update()
 
+    function pointsIn() {
+        points
+            .filter(d => d.model == step)
+            .attr('stroke-width', d => d.model == step ? 1 : 0)
+            .raise();
+    }
 
-    function simulate() {
+    function pointsOut() {
+        points.attr('stroke-width', 0);
+    }
 
-        const sim_time = 3000
-        window.clearTimeout()
+    function lineIn() {
+        let selectedData = regressionLines.find(d => d.model == step)
 
-        step = steps[0].value
-        update()
+        svg.selectAll('.selected-line-stroke')
+            .data([selectedData])
+            .join('line')
+            .attr("class", "selected-line-stroke")
+            .attr("x1", d => xScale(d[0][0]))
+            .attr("x2", d => xScale(d[1][0]))
+            .attr("y1", d => yScale(d[0][1]))
+            .attr("y2", d => yScale(d[1][1]))
+            .attr("stroke", (d, i) => 'white')
+            .attr('stroke-width', 5)
+            .attr("pointer-events", "none");
 
-        points.dispatch("mouseover")
+        lines
+            .filter(d => d.model == step)
+            .raise();
 
-        setTimeout(() => {
-            points.dispatch("mouseout")
-            lines.dispatch("mouseover")
-        }, sim_time);
+    }
 
-        setTimeout(() => {
-            lines.dispatch("mouseout")
-            step = steps[1].value
-            update()
-            lines.dispatch("mouseover")
-            points.dispatch("mouseover")
-        }, sim_time * 2);
+    function lineOut() {
+        svg.selectAll('.selected-line-stroke').remove();
+    }
 
-        setTimeout(() => {
-            points.dispatch("mouseout")
-            lines.dispatch("mouseout")
+    function walkthrough() {
+        
+        d3.select("#demoButton").text(stage == 0 ? "How do i interpret this graph?" : "Okay I understand now")
+        d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
+        d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
+        d3.select(`#${selector}-stage-select`).classed('hidden', stage == 0 ? true : false)
+
+        tooltip.style("visibility", "visible")
+
+        if (stage == 1) {
             step = steps[0].value
             update()
-        }, sim_time * 3);
+            lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
+            tooltip.text("We used linear regression models to predict the champion score for each study group. This graph visualizes the prediction results vs. the actual score of each group for five different models.")
+
+        } else if (stage == 2) {
+
+            lines.attr('stroke-opacity', 0)
+            points.attr('cy', height)
+            pointsIn()
+            tooltip.text("The actual score of each study group is plotted along the x-axis.")
+
+
+        } else if (stage == 3) {
+
+            points.transition().attr('cy', d => yScale(d.predicted))
+            tooltip.text("The predicted score of each study group is plotted along the y-axis.")
+
+        } else if (stage == 4) {
+
+            lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
+            lineIn()
+            pointsIn()
+            tooltip.text("If a model were to perfectly predict the score of each group, the model’s regression line would form a 45 degree angle. For the purposes of this visualization we’ll call this the ‘perfect model’, and we’ll reference this line for comparison against all of the other models.")
+
+        } else if (stage == 5) {
+
+            step = steps[4].value
+            update()
+            pointsOut()
+            lineOut()
+            lineIn()
+            pointsIn()
+            tooltip.text("Use the ‘select model’ dropdown to explore different models.")
+
+        } else if (stage == 6) {
+
+            pointsOut()
+            lineOut()
+            d3.select(`${selector}-table`).classed('highlight', true)
+            tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
+
+        } else if (stage == 7) {
+
+            d3.select(`${selector}-table`).classed('highlight', false)
+            d3.select(`variance-container`).classed('highlight', true)
+            tooltip.text("The variance explained by the model measures how well the model performed at predicting champion scores. The closer to 100%, the more accurate the model.")
+
+        } else if (stage == 8) {
+
+            d3.select(`variance-container`).classed('highlight', false)
+            step = steps[0].value
+            update()
+            tooltip.style("visibility", "hidden")
+
+        }
+
     }
 
 })()
