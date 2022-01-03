@@ -65,7 +65,7 @@
     }
 
     // responsive width & height
-    const svgWidth = 800
+    const svgWidth = 600
     const svgHeight = svgWidth * 1.2
 
     // helper calculated variables for inner width & height
