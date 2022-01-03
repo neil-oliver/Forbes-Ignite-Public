@@ -175,7 +175,6 @@
             tooltip
                 .text("line text")
                 .style("visibility", "visible")
-                .style("background-color", "grey");
 
         })
         .on("mouseout", (event, d) => {
@@ -184,7 +183,6 @@
 
             tooltip
                 .style("visibility", "hidden")
-                .style("background-color", "");
 
         });
 
@@ -212,7 +210,6 @@
             tooltip
                 .text("point text")
                 .style("visibility", "visible")
-                .style("background-color", "grey");
         })
         .on("mouseout", (event) => {
 
@@ -221,7 +218,6 @@
 
             tooltip
                 .style("visibility", "hidden")
-                .style("background-color", "");
 
         });
 
