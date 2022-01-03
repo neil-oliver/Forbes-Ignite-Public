@@ -140,7 +140,7 @@
     }
 
     // responsive width & height
-    const svgWidth = parseInt(d3.select(visSelector).style('width'), 10)
+    const svgWidth = 800
     const svgHeight = svgWidth
 
     // helper calculated variables for inner width & height
@@ -154,8 +154,8 @@
 
     const svg = d3.select(visSelector)
         .append('svg')
-        .attr('height', svgHeight)
-        .attr('width', svgWidth)
+        .attr('width', '100%')
+        .attr('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight)
         .append('g')
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
