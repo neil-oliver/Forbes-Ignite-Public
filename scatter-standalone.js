@@ -83,7 +83,7 @@
         .attr("background-color", "#ccc")
         .attr("disabled", stage < 2 ? true : null)
         .on('click', () => {
-            if (stage <= 1) {
+            if (stage >= 1) {
                 stage = stage - 1
                 walkthrough()
             }
