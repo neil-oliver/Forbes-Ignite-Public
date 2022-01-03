@@ -447,18 +447,18 @@
 
             pointsOut()
             lineOut()
-            d3.select(`${selector}-table`).classed('highlight', true)
+            d3.select(`#table`).classed('highlight', true)
             tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
 
         } else if (stage == 7) {
 
-            d3.select(`${selector}-table`).classed('highlight', false)
+            d3.select(`#table`).classed('highlight', false)
             d3.select(`variance-container`).classed('highlight', true)
             tooltip.text("The variance explained by the model measures how well the model performed at predicting champion scores. The closer to 100%, the more accurate the model.")
 
         } else if (stage == 8) {
 
-            d3.select(`variance-container`).classed('highlight', false)
+            d3.select(`#variance-container`).classed('highlight', false)
             step = steps[0].value
             update()
             tooltip.style("visibility", "hidden")
