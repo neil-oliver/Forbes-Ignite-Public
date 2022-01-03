@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div id="overview-table"></div>
-                <div id="tooltip"></div>
+                <div id="overview-tooltip"></div>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
     body.html("")
 
     // create a tooltip
-    var tooltip = d3.select("#tooltip")
+    var tooltip = d3.select("#overview-tooltip")
 
     // margins for SVG
     const margin = {

@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div id="table"></div>
-                <div id="tooltip"></div>
+                <div id="scatter-tooltip"></div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
     body.html("")
 
     // create a tooltip
-    var tooltip = d3.select("#tooltip")
+    var tooltip = d3.select("#scatter-tooltip")
 
     var input = d3.select(`#${selector}-dropdown`)
         .append('select')
