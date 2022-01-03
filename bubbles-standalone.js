@@ -66,7 +66,7 @@
 
     // responsive width & height
     const svgWidth = 500
-    const svgHeight = svgWidth * 1.2
+    const svgHeight = svgWidth
 
     // helper calculated variables for inner width & height
     const height = svgHeight - margin.top - margin.bottom
