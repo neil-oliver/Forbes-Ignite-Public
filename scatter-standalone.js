@@ -407,7 +407,9 @@
 
         tooltip.style("visibility", "visible")
 
-        if (stage == 1) {
+        if (stage = 0){
+            tooltip.style("visibility", "hidden")
+        } else if (stage == 1) {
             step = steps[0].value
             update()
             points.attr('cy', d => yScale(d.predicted))
