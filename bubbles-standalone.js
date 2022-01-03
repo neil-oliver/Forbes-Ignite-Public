@@ -65,7 +65,7 @@
     }
 
     // responsive width & height
-    const svgWidth = 600
+    const svgWidth = 500
     const svgHeight = svgWidth * 1.2
 
     // helper calculated variables for inner width & height
@@ -126,7 +126,7 @@
     ////////////////////////////////////
     //////////////globals///////////////
     ////////////////////////////////////
-    const radius = 4
+    const radius = 3
     const group = 'PCA Group'
 
     ////////////////////////////////////
