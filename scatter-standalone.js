@@ -416,6 +416,7 @@
         } else if (stage == 2) {
 
             lines.attr('stroke-opacity', 0)
+            
             points.attr('cy', height)
             pointsIn()
             tooltip.text("The actual score of each study group is plotted along the x-axis.")
@@ -428,6 +429,10 @@
 
         } else if (stage == 4) {
 
+            step = steps[0].value
+            update()
+            pointsOut()
+            lineOut()
             lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
             lineIn()
             pointsIn()
@@ -447,11 +452,14 @@
 
             pointsOut()
             lineOut()
+            d3.select(`#${selector}-variance-container`).classed('highlight', false)
             d3.select(`#${selector}-table`).classed('highlight', true)
             tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
 
         } else if (stage == 7) {
 
+            step = steps[4].value
+            update()
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select(`#${selector}-variance-container`).classed('highlight', true)
             tooltip.text("The variance explained by the model measures how well the model performed at predicting champion scores. The closer to 100%, the more accurate the model.")
