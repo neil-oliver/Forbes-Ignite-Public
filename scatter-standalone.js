@@ -410,7 +410,9 @@
         if (stage == 1) {
             step = steps[0].value
             update()
+            points.attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
+            pointsOut()
             tooltip.text("We used linear regression models to predict the champion score for each study group. This graph visualizes the prediction results vs. the actual score of each group for five different models.")
 
         } else if (stage == 2) {
