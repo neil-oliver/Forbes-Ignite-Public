@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div id="table"></div>
-                <div id="scatter-tooltip"></div>
+                <div class="tooltip" id="scatter-tooltip"></div>
             </div>
         </div>
     </div>

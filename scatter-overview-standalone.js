@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div id="overview-table"></div>
-                <div id="overview-tooltip"></div>
+                <div class="tooltip" id="overview-tooltip"></div>
             </div>
         </div>
     </div>
