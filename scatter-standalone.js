@@ -13,8 +13,8 @@
             <div class="inner-container">
                 <div id="${selector}-demo-button"></div>
                 <div class="hidden" id="${selector}-stage-select"></div>
-                <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-dropdown"></div>
+                <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-variance-container">
                     <div id="variance"></div>
                     <div id="variance-label">
@@ -62,7 +62,7 @@
     // add simulation button
     var button = d3.select(`#${selector}-demo-button`)
         .append("button")
-        .text("How do i interpret this graph?")
+        .text("How do I interpret this graph?")
         .attr("id", "demoButton")
         .attr("class", "button")
         .attr("background-color", "#ccc")
@@ -203,7 +203,7 @@
         .attr('class', 'points');
 
 
-    let columns = ['variables', 'direction', 'p value']
+    let columns = ['variables', 'direction', 'p-value']
 
     var table = d3.select(`#${selector}-table`).append("table"),
         thead = table.append("thead"),

@@ -221,7 +221,7 @@
 
         });
 
-    let columns = ['variables', 'direction', 'p value']
+    let columns = ['variables', 'direction', 'p-value']
 
     var table = d3.select('#overview-table').append("table"),
         thead = table.append("thead"),
@@ -282,7 +282,7 @@
     let legendBox = svg.append('rect')
         .attr("x", legendX - 10)
         .attr("y", legendY - 10)
-        .attr("width", 260)
+        .attr("width", 300)
         .attr("height", 100)
         .attr("fill", 'rgba(100,100,100,0.2)')
 
@@ -303,7 +303,7 @@
     svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 50)
-        .text("Model Regression")
+        .text("Selected model regression line")
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
@@ -318,7 +318,7 @@
     svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 70)
-        .text("Perfect Prediction")
+        .text("Perfect model regression line")
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
@@ -331,7 +331,7 @@
     let modelText = svg.append('text')
         .attr("x", legendX + 40)
         .attr("y", legendY + 30)
-        .text("Perfect Score")
+        .text("Study group")
         .attr("fill", "grey")
         .attr("dominant-baseline", "middle")
 
