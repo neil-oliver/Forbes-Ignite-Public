@@ -418,6 +418,7 @@
 
         if (stage == 0){
             step = steps[0].value
+            d3.select("#demoButton").classed('demo-active', false)
             update()
             lineOut()
             pointsOut()
@@ -428,6 +429,7 @@
         } else if (stage == 1) {
             step = steps[0].value
             update()
+            d3.select("#demoButton").classed('demo-active', true)
             d3.select('#selector-model-overview-container').style('display', 'none')
             d3.select('#scatter-table').style('display', 'none')
             d3.select('#optionSelect').attr('disabled', true)
