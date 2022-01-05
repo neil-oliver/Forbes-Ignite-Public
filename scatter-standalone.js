@@ -102,7 +102,6 @@
         .attr("class", "button")
         .attr("id", "forwardButton")
         .attr("background-color", "#ccc")
-        .attr("disabled", stage > 7 ? true : null)
         .on('click', () => {
             if (stage <= 7) {
                 stage = stage + 1
