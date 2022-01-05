@@ -17,7 +17,6 @@
                 </div>
                 <div id="selector-model-overview-container">
                     <div id="${selector}-dropdown"></div>
-                    <div><h2 id="model-title">Perfect Model</h2></div>
                     <div id="${selector}-variance-container">
                         <div id="variance"></div>
                         <div id="variance-label">
@@ -35,12 +34,12 @@
     `;
 
     let steps = [
-        { text: 'Perfect', value: 'perfect' },
-        { text: 'Demographic', value: 'demographic' },
-        { text: 'Cognitive Traits', value: 'cognitive-traits' },
-        { text: 'Cognitive Diversity', value: 'cognitive-diversity' },
-        { text: 'Perception', value: 'perception' },
-        { text: 'Qualitative', value: 'qualitative' }
+        { text: 'Perfect Model', value: 'perfect' },
+        { text: 'Demographic Model', value: 'demographic' },
+        { text: 'Cognitive Traits Model', value: 'cognitive-traits' },
+        { text: 'Cognitive Diversity Model', value: 'cognitive-diversity' },
+        { text: 'Perception Model', value: 'perception' },
+        { text: 'Qualitative Model', value: 'qualitative' }
     ]
 
     let step = steps[0].value;
@@ -341,8 +340,6 @@
 
         lines.attr("pointer-events", (d, i) => d.model == step || d.model == 'perfect' ? "auto" : "none")
         lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
-
-        d3.select('#model-title').text(steps.find(d => d.value == step).text + ' Model')
 
         d3.select('#variance')
             .data(regressionLines.filter((d, i) => d.model == step))
