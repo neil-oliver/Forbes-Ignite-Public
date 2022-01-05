@@ -418,6 +418,7 @@
             step = steps[0].value
             update()
             d3.select('#selector-model-overview-container').style('display', 'none')
+            d3.select('#scatter-table').style('display', 'none')
             d3.select('#optionSelect').attr('disabled', true)
             points.attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
@@ -455,13 +456,14 @@
 
         } else if (stage == 5) {
 
-            step = steps[4].value
+            step = steps[1].value
             update()
             pointsOut()
             lineOut()
             lineIn()
             pointsIn()
             d3.select(`#${selector}-table`).classed('highlight', false)
+            d3.select('#scatter-table').style('display', 'none')
             tooltip.text("Use the ‘select model’ dropdown to explore different models.")
 
         } else if (stage == 6) {
@@ -470,11 +472,12 @@
             lineOut()
             d3.select(`#${selector}-variance-container`).classed('highlight', false)
             d3.select(`#${selector}-table`).classed('highlight', true)
+            d3.select('#scatter-table').style('display', null)
             tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
 
         } else if (stage == 7) {
 
-            step = steps[4].value
+            step = steps[1].value
             update()
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select(`#${selector}-variance-container`).classed('highlight', true)
