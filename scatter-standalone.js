@@ -404,7 +404,7 @@
 
     function walkthrough() {
 
-        d3.select("#demoButton").text(stage == 0 ? "How do i interpret this graph?" : "Okay I understand now")
+        d3.select("#demoButton").text(stage == 0 ? "How do I interpret this graph?" : "Okay I understand now")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
         d3.select(`#${selector}-stage-select`).classed('hidden', stage == 0 ? true : false)
@@ -436,7 +436,7 @@
 
         } else if (stage == 3) {
             lineOut()
-            d3.select('#selector-model-overview-container').attr('display', 'none')
+            d3.select('#selector-model-overview-container').style('display', 'none')
             points.transition().attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', 0)
             tooltip.text("The predicted score of each study group is plotted along the y-axis.")
@@ -447,7 +447,7 @@
             update()
             pointsOut()
             lineOut()
-            d3.select('#selector-model-overview-container').attr('display', null)
+            d3.select('#selector-model-overview-container').style('display', null)
             lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
             lineIn()
             pointsIn()
