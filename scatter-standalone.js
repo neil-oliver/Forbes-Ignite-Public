@@ -497,6 +497,7 @@
             step = steps[0].value
             update()
             tooltip.style("visibility", "hidden")
+            stage = 0
             walkthrough()
 
         }
