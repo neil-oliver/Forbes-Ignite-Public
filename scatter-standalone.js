@@ -103,7 +103,7 @@
         .attr("id", "forwardButton")
         .attr("background-color", "#ccc")
         .on('click', () => {
-            if (stage <= 7) {
+            if (stage < 6) {
                 stage = stage + 1
                 walkthrough()
             } else {
@@ -409,6 +409,7 @@
     function walkthrough() {
 
         console.log(stage)
+        console.log('test')
 
         d3.select("#demoButton").text(stage == 0 ? "How do I interpret this graph?" : "Okay I understand now")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
