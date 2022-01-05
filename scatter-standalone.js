@@ -68,7 +68,7 @@
     // add simulation button
     var button = d3.select(`#${selector}-demo-button`)
         .append("button")
-        .text("ⓘ How do I interpret this graph?")
+        .text("ⓘ  How do I interpret this graph?")
         .attr("id", "demoButton")
         .attr("class", "button")
         .attr("background-color", "#ccc")
@@ -408,7 +408,7 @@
 
     function walkthrough() {
 
-        d3.select("#demoButton").text(stage == 0 ? "ⓘ How do I interpret this graph?" : "ⓧ Close graph walkthrough")
+        d3.select("#demoButton").text(stage == 0 ? "ⓘ  How do I interpret this graph?" : "ⓧ  Close graph walkthrough")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
         d3.select(`#${selector}-stage-select`).classed('hidden', stage == 0 ? true : false)
