@@ -408,6 +408,8 @@
 
     function walkthrough() {
 
+        console.log(stage)
+
         d3.select("#demoButton").text(stage == 0 ? "How do I interpret this graph?" : "Okay I understand now")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
