@@ -35,12 +35,12 @@
     `;
 
     let steps = [
-        { text: 'Select model', value: 'perfect' },
-        { text: 'Select model', value: 'demographic' },
-        { text: 'Select model', value: 'cognitive-traits' },
-        { text: 'Select model', value: 'cognitive-diversity' },
-        { text: 'Select model', value: 'perception' },
-        { text: 'Select model', value: 'qualitative' }
+        { text: 'Perfect', value: 'perfect' },
+        { text: 'Demographic', value: 'demographic' },
+        { text: 'Cognitive Traits', value: 'cognitive-traits' },
+        { text: 'Cognitive Diversity', value: 'cognitive-diversity' },
+        { text: 'Perception', value: 'perception' },
+        { text: 'Qualitative', value: 'qualitative' }
     ]
 
     let step = steps[0].value;
