@@ -107,6 +107,9 @@
             if (stage <= 7) {
                 stage = stage + 1
                 walkthrough()
+            } else {
+                stage = 0
+                walkthrough()
             }
         });
 
@@ -490,15 +493,6 @@
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select(`#${selector}-variance-container`).classed('highlight', true)
             tooltip.text("The variance explained by the model measures how well the model performed at predicting champion scores. The closer to 100%, the more accurate the model.")
-
-        } else if (stage == 8) {
-
-            d3.select(`#${selector}-variance-container`).classed('highlight', false)
-            step = steps[0].value
-            update()
-            tooltip.style("visibility", "hidden")
-            stage = 0
-            walkthrough()
 
         }
 
