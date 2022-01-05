@@ -468,7 +468,7 @@
             pointsIn()
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select('#scatter-table').style('display', 'none')
-            d3.select('#optionSelect').attr('value', steps[1].value)
+            d3.select('#optionSelect').property('value', steps[1].value)
             tooltip.text("Use the ‘select model’ dropdown to explore different models.")
 
         } else if (stage == 6) {
