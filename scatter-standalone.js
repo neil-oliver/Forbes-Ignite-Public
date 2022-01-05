@@ -16,7 +16,9 @@
                     <div class="hidden" id="${selector}-stage-select"></div>
                 </div>
                 <div id="selector-model-overview-container">
-                    <div id="${selector}-dropdown"></div>
+                    <div id="${selector}-dropdown">
+                        <label for="#optionSelect">Select model</label>
+                    </div>
                     <div id="${selector}-variance-container">
                         <div id="variance"></div>
                         <div id="variance-label">
@@ -46,6 +48,7 @@
 
     var body = d3.select(visSelector)
     body.html("")
+
 
     // create a tooltip
     var tooltip = d3.select("#scatter-tooltip")
