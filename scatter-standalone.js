@@ -414,6 +414,8 @@
         if (stage == 0){
             tooltip.style("visibility", "hidden")
             d3.select('#optionSelect').attr('disabled', null)
+            d3.select('#selector-model-overview-container').style('display', null)
+            d3.select('#scatter-table').style('display', null)
         } else if (stage == 1) {
             step = steps[0].value
             update()
