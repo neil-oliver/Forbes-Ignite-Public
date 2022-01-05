@@ -412,6 +412,8 @@
         tooltip.style("visibility", "visible")
 
         if (stage == 0){
+            step = steps[0].value
+            update()
             tooltip.style("visibility", "hidden")
             d3.select('#optionSelect').attr('disabled', 'block')
             d3.select('#selector-model-overview-container').style('display', 'block')
@@ -466,7 +468,7 @@
             pointsIn()
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select('#scatter-table').style('display', 'none')
-            d3.select('#optionSelect').attr('value', 'demographic')
+            d3.select('#optionSelect').attr('value', steps[1].value)
             tooltip.text("Use the ‘select model’ dropdown to explore different models.")
 
         } else if (stage == 6) {
