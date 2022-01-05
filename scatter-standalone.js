@@ -103,7 +103,7 @@
         .attr("id", "forwardButton")
         .attr("background-color", "#ccc")
         .on('click', () => {
-            if (stage < 6) {
+            if (stage <= 6) {
                 stage = stage + 1
                 walkthrough()
             } else {
