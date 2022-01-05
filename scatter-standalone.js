@@ -16,8 +16,8 @@
                     <div class="hidden" id="${selector}-stage-select"></div>
                 </div>
                 <div id="selector-model-overview-container">
+                    <label for="optionSelect">Select model</label>
                     <div id="${selector}-dropdown">
-                        <label for="optionSelect">Select model</label>
                     </div>
                     <div id="${selector}-variance-container">
                         <div id="variance"></div>
