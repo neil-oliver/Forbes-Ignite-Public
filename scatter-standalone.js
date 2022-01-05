@@ -416,6 +416,8 @@
         if (stage == 0){
             step = steps[0].value
             update()
+            lineOut()
+            pointsOut()
             tooltip.style("visibility", "hidden")
             d3.select('#optionSelect').attr('disabled', null)
             d3.select('#selector-model-overview-container').style('display', 'block')
