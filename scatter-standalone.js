@@ -17,7 +17,7 @@
                 </div>
                 <div id="selector-model-overview-container">
                     <div id="${selector}-dropdown">
-                        <label for="#optionSelect">Select model</label>
+                        <label for="optionSelect">Select model</label>
                     </div>
                     <div id="${selector}-variance-container">
                         <div id="variance"></div>
