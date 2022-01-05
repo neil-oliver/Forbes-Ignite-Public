@@ -15,14 +15,16 @@
                     <div id="${selector}-demo-button"></div>
                     <div class="hidden" id="${selector}-stage-select"></div>
                 </div>
-                <div id="${selector}-dropdown"></div>
-                <div><h2 id="model-title">Perfect Model</h2></div>
-                <div id="${selector}-variance-container">
-                    <div id="variance"></div>
-                    <div id="variance-label">
-                    Variance<br>
-                    explained<br>
-                    by model
+                <div id="selector-model-overview-container">
+                    <div id="${selector}-dropdown"></div>
+                    <div><h2 id="model-title">Perfect Model</h2></div>
+                    <div id="${selector}-variance-container">
+                        <div id="variance"></div>
+                        <div id="variance-label">
+                        Variance<br>
+                        explained<br>
+                        by model
+                        </div>
                     </div>
                 </div>
                 <div id="${selector}-table"></div>
@@ -411,13 +413,17 @@
 
         if (stage == 0){
             tooltip.style("visibility", "hidden")
+            d3.select('#optionSelect').attr('disabled', null)
         } else if (stage == 1) {
             step = steps[0].value
             update()
+            d3.select('#selector-model-overview-container').attr('display', 'none')
+            d3.select('#optionSelect').attr('disabled', true)
             points.attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
             pointsOut()
             tooltip.text("We used linear regression models to predict the champion score for each study group. This graph visualizes the prediction results vs. the actual score of each group for five different models.")
+
 
         } else if (stage == 2) {
 
@@ -430,6 +436,7 @@
 
         } else if (stage == 3) {
             lineOut()
+            d3.select('#selector-model-overview-container').attr('display', 'none')
             points.transition().attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', 0)
             tooltip.text("The predicted score of each study group is plotted along the y-axis.")
@@ -440,6 +447,7 @@
             update()
             pointsOut()
             lineOut()
+            d3.select('#selector-model-overview-container').attr('display', null)
             lines.attr('stroke-opacity', (d, i) => d.model == step || d.model == 'perfect' ? 1 : 0.2)
             lineIn()
             pointsIn()
