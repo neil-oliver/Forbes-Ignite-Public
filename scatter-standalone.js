@@ -417,7 +417,7 @@
         } else if (stage == 1) {
             step = steps[0].value
             update()
-            d3.select('#selector-model-overview-container').attr('display', 'none')
+            d3.select('#selector-model-overview-container').style('display', 'none')
             d3.select('#optionSelect').attr('disabled', true)
             points.attr('cy', d => yScale(d.predicted))
             lines.attr('stroke-opacity', d => d.model == step ? 1 : 0)
