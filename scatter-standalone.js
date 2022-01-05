@@ -11,8 +11,10 @@
         <div id="${selector}-vis" class="column"></div>
         <div id="${selector}-info" class="column">
             <div class="inner-container">
-                <div id="${selector}-demo-button"></div>
-                <div class="hidden" id="${selector}-stage-select"></div>
+                <div class="demo-buttons-container">
+                    <div id="${selector}-demo-button"></div>
+                    <div class="hidden" id="${selector}-stage-select"></div>
+                </div>
                 <div id="${selector}-dropdown"></div>
                 <div><h2 id="model-title">Perfect Model</h2></div>
                 <div id="${selector}-variance-container">
