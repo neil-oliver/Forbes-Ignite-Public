@@ -1,4 +1,4 @@
-variance,model,variables,direction,p value
+variance,model,variables,direction,p-value
 79%,demographic,number of participants,-,0.001
 79%,demographic,age diversity,+,0.093
 79%,demographic,LGBT diversity,+,0.011
