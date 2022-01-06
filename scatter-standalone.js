@@ -71,6 +71,7 @@
         .text("ⓘ  How do I interpret this graph?")
         .attr("id", "demoButton")
         .attr("class", "button")
+        .attr("class", "demo-btn")
         .attr("background-color", "#ccc")
         .on('click', () => {
             if (stage > 0) {
@@ -418,6 +419,7 @@
         if (stage == 0){
             step = steps[0].value
             d3.select("#demoButton").classed('demo-active', false)
+            d3.select("#demoButton").classed('demo-btn', true)
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select(`#${selector}-variance-container`).classed('highlight', false)
             update()
@@ -430,6 +432,7 @@
         } else if (stage == 1) {
             step = steps[0].value
             update()
+            d3.select("#demoButton").classed('demo-btn', false)
             d3.select("#demoButton").classed('demo-active', true)
             d3.select('#selector-model-overview-container').style('display', 'none')
             d3.select('#scatter-table').style('display', 'none')
