@@ -12,7 +12,7 @@
         <div id="${selector}-info" class="column">
             <div class="inner-container">
                 <div class="demo-buttons-container">
-                    <div id="${selector}-demo-button"></div>
+                    <div id="${selector}-demo-button" class="demo-btn"></div>
                     <div class="hidden" id="${selector}-stage-select"></div>
                 </div>
                 <div id="selector-model-overview-container">
