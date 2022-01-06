@@ -418,6 +418,8 @@
         if (stage == 0){
             step = steps[0].value
             d3.select("#demoButton").classed('demo-active', false)
+            d3.select(`#${selector}-table`).classed('highlight', false)
+            d3.select(`#${selector}-variance-container`).classed('highlight', false)
             update()
             lineOut()
             pointsOut()
