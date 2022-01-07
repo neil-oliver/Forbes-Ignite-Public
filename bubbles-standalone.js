@@ -155,7 +155,7 @@
     // colour scales for all lines and legend
     const colorScale = d3.scaleOrdinal()
         .domain(data.map(d => d[group]))
-        .range(['#D490F3','#FDC500','#7ACDCA'])
+        .range(['#FDA700','#55BDB9','#BD5CE9'])
 
     ////////////////////////////////////
     /////////simulation setup///////////
