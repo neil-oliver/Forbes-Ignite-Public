@@ -68,7 +68,7 @@
     // add simulation button
     var button = d3.select(`#${selector}-demo-button`)
         .append("button")
-        .text("ⓘ  How do I interpret this graph?")
+        .text("ⓘ &nbsp; How do I interpret this graph?")
         .attr("id", "demoButton")
         .attr("class", "button")
         .attr("class", "demo-btn")
@@ -409,7 +409,7 @@
 
     function walkthrough() {
 
-        d3.select("#demoButton").text(stage == 0 ? "ⓘ  How do I interpret this graph?" : "ⓧ  Close graph walkthrough")
+        d3.select("#demoButton").text(stage == 0 ? "ⓘ &nbsp; How do I interpret this graph?" : "ⓧ &nbsp; Close graph walkthrough")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
         d3.select(`#${selector}-stage-select`).classed('hidden', stage == 0 ? true : false)
@@ -481,7 +481,7 @@
             pointsIn()
             d3.select(`#${selector}-table`).classed('highlight', false)
             d3.select('#scatter-table').style('display', 'none')
-            tooltip.text("Use the ‘select model’ dropdown to explore different models.")
+            tooltip.text("The ‘select model’ dropdown allows you to explore the results of different models.")
 
         } else if (stage == 6) {
 
@@ -490,7 +490,7 @@
             d3.select(`#${selector}-variance-container`).classed('highlight', false)
             d3.select(`#${selector}-table`).classed('highlight', true)
             d3.select('#scatter-table').style('display', null)
-            tooltip.text("The variables included in a given model, the direction of the relationship between each variable and a group’s champion score (positive means and increase in that variable corresponds to an increase in champion score), and the strength of the relationship (statistical significance, p value) are displayed in the table.")
+            tooltip.text("Each model is comprised of multiple variables. The statistically significant variables are displayed in the table above.")
 
         } else if (stage == 7) {
 
