@@ -179,7 +179,7 @@
         .attr('y2', d => yLeft(d))
         .attr('x1', 0)
         .attr('x2', width)
-        .attr('stroke', 'grey')
+        .attr('stroke', '#D1D1D1')
         .attr('class', 'lines')
 
 
