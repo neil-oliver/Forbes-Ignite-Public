@@ -213,6 +213,7 @@
 
 
     let columns = ['variables', 'direction', 'p-value']
+    let columnNames = ['Variables', 'Direction', 'P&#8209;Value']
 
     var table = d3.select(`#${selector}-table`).append("table"),
         thead = table.append("thead"),
@@ -223,7 +224,7 @@
         .data(columns)
         .enter()
         .append("th")
-        .text(d => d.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()));
+        .html((d,i) => columnNames[i]);
 
     ////////////////////////////////////
     ///////////// axis /////////////////
