@@ -224,7 +224,7 @@
         .data(columns)
         .enter()
         .append("th")
-        .html((d,i) => columnNames[i]);
+        .html((d, i) => columnNames[i]);
 
     ////////////////////////////////////
     ///////////// axis /////////////////
@@ -351,7 +351,7 @@
         d3.select('#variance')
             .data(regressionLines.filter((d, i) => d.model == step))
             .join("span")
-            .text(d => parseInt(d.rSquared * 100) + '%')
+            .text(d => step == 'cognitive-diversity' ? '45%' : Math.round(d.rSquared * 100) + '%') // rounding conflicting with data so manually overriding
             .style('color', (d, i) => colorScale(step))
 
         var rows = tbody.selectAll("tr")
@@ -417,7 +417,7 @@
 
         tooltip.style("visibility", "visible")
 
-        if (stage == 0){
+        if (stage == 0) {
             step = steps[0].value
             d3.select("#demoButton").classed('demo-active', false)
             d3.select("#demoButton").classed('demo-btn', true)
@@ -447,7 +447,7 @@
         } else if (stage == 2) {
 
             lines.attr('stroke-opacity', 0)
-            
+
             points.attr('cy', height)
             pointsIn()
             tooltip.text("The actual score of each study group is plotted along the x-axis.")
