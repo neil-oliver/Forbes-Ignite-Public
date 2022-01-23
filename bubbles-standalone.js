@@ -7,47 +7,47 @@
 
     const metrics = [
         {
-            name: '1. Generosity',
+            name: 'Generosity',
             left: 'Sharing',
             right: 'Frugal'
         },
         {
-            name: '2. Learning',
+            name: 'Learning',
             left: 'Adaptive',
             right: 'Consistent'
         },
         {
-            name: '3. Attention',
+            name: 'Attention',
             left: 'Methodical',
             right: 'Action-biased'
         },
         {
-            name: '4. Emotion',
+            name: 'Emotion',
             left: 'Expression-oriented',
             right: 'Context-oriented'
         },
         {
-            name: '5. Risk Tolerance',
+            name: 'Risk Tolerance',
             left: 'Adventurous',
             right: 'Cautious'
         },
         {
-            name: '6. Decision Making',
+            name: 'Decision Making',
             left: 'Deliberative',
             right: 'Instinctive'
         },
         {
-            name: '7. Effort',
+            name: 'Effort',
             left: 'Hard-working',
             right: 'Outcome-driven'
         },
         {
-            name: '8. Fairness',
+            name: 'Fairness',
             left: 'Accepting',
             right: 'Critical'
         },
         {
-            name: '9. Focus',
+            name: 'Focus',
             left: 'Focused',
             right: 'Multi-tasking'
         },
@@ -61,7 +61,7 @@
         left: 10,
         right: 10,
         top: 90,
-        bottom: 50
+        bottom: 20
     }
 
     // responsive width & height
@@ -197,7 +197,7 @@
         .join('text')
         .attr('y', d => yLeft(d.left) - 20)
         .attr('x', width / 2)
-        .text(d => d.name)
+        .text((d,i) => i + '. ' + d.name)
         .attr("text-anchor", "middle")
         .attr('class', 'trait-text')
 
