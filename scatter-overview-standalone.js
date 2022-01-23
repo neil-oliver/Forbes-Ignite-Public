@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div id="overview-table"></div>
-                <div class="explanation-text">*p-values represent the probability of getting your results just by sheer chance. Scientists usually set a p-value of less than 5% to mean statistically significant</div>
+                <div class="explanation-text">*p-values represent the probability of getting the results just by sheer chance. Scientists usually set a p-value of less than 5% to mean statistically significant</div>
                 <div class="tooltip" id="overview-tooltip"></div>
             </div>
         </div>
