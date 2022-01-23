@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div id="${selector}-table"></div>
-                <div class="explanation-text">*p-values represent the probability of getting the results just by sheer chance. Scientists usually set a p-value of less than 5% to mean statistically significant</div>
+                <div id="explanation-text" class="explanation-text">*p-values represent the probability of getting the results just by sheer chance. Scientists usually set a p-value of less than 5% to mean statistically significant</div>
                 <div class="tooltip" id="scatter-tooltip"></div>
             </div>
         </div>
@@ -411,6 +411,7 @@
 
     function walkthrough() {
 
+        d3.select("#explanation-text").classed('hidden', stage == 0 ? false : true)
         d3.select("#demoButton").html(stage == 0 ? "ⓘ &nbsp; How do I interpret this graph?" : "ⓧ &nbsp; Close graph walkthrough")
         d3.select("#backButton").attr("disabled", stage < 2 ? true : null)
         d3.select("#forwardButton").attr("disabled", stage > 7 ? true : null)
