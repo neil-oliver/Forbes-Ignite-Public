@@ -60,7 +60,7 @@
     const margin = {
         left: 10,
         right: 10,
-        top: 50,
+        top: 70,
         bottom: 50
     }
 
@@ -201,6 +201,15 @@
         .attr("text-anchor", "middle")
         .attr('class', 'trait-text')
 
+        let title = svg.selectAll('.trait-title')
+        .data([0])
+        .join('text')
+        .attr('y', -50)
+        .attr('x', width / 2)
+        .text("Pymetrics traits distribution for all study participants")
+        .attr("text-anchor", "middle")
+        .attr('class', 'trait-title')
+
 
     var simulation = d3.forceSimulation(data)
         .force('y', d3.forceY(d =>
@@ -278,6 +287,7 @@
         if (val) step = val.target.value;
 
         text.attr('opacity', d => step != 'pymetrics' ? 0 : 1)
+        title.attr('opacity', d => step != 'pymetrics' ? 0 : 1)
 
         balls
             .attr('opacity', d => step != 'pymetrics' && d.i != 0 ? 0 : 1)
