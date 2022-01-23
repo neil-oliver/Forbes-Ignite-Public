@@ -168,7 +168,7 @@
         .attr('class', 'points')
 
     let columns = ['variables', 'direction', 'p-value']
-    let columnNames = ['Variables', 'Direction', '*P&#8209;Value']
+    let columnNames = ['Variables', 'Direction', 'P&#8209;Value*']
 
     var table = d3.select('#overview-table').append("table"),
         thead = table.append("thead"),
