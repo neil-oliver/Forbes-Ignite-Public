@@ -7,47 +7,47 @@
 
     const metrics = [
         {
-            name: 'Generosity',
+            name: '1. Generosity',
             left: 'Sharing',
             right: 'Frugal'
         },
         {
-            name: 'Learning',
+            name: '2. Learning',
             left: 'Adaptive',
             right: 'Consistent'
         },
         {
-            name: 'Attention',
+            name: '3. Attention',
             left: 'Methodical',
             right: 'Action-biased'
         },
         {
-            name: 'Emotion',
+            name: '4. Emotion',
             left: 'Expression-oriented',
             right: 'Context-oriented'
         },
         {
-            name: 'Risk Tolerance',
+            name: '5. Risk Tolerance',
             left: 'Adventurous',
             right: 'Cautious'
         },
         {
-            name: 'Decision Making',
+            name: '6. Decision Making',
             left: 'Deliberative',
             right: 'Instinctive'
         },
         {
-            name: 'Effort',
+            name: '7. Effort',
             left: 'Hard-working',
             right: 'Outcome-driven'
         },
         {
-            name: 'Fairness',
+            name: '8. Fairness',
             left: 'Accepting',
             right: 'Critical'
         },
         {
-            name: 'Focus',
+            name: '9. Focus',
             left: 'Focused',
             right: 'Multi-tasking'
         },
