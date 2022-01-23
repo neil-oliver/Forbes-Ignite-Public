@@ -197,7 +197,7 @@
         .join('text')
         .attr('y', d => yLeft(d.left) - 20)
         .attr('x', width / 2)
-        .text((d,i) => i + '. ' + d.name)
+        .text((d,i) => (i+1) + '. ' + d.name)
         .attr("text-anchor", "middle")
         .attr('class', 'trait-text')
 
