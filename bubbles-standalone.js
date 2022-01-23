@@ -60,7 +60,7 @@
     const margin = {
         left: 10,
         right: 10,
-        top: 70,
+        top: 90,
         bottom: 50
     }
 
@@ -204,7 +204,7 @@
         let title = svg.selectAll('.trait-title')
         .data([0])
         .join('text')
-        .attr('y', -50)
+        .attr('y', -70)
         .attr('x', width / 2)
         .text("Pymetrics traits distribution for all study participants")
         .attr("text-anchor", "middle")
