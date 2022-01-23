@@ -307,7 +307,7 @@
         d3.select('#overview-variance')
             .data(regressionLines.filter((d, i) => d.model == step))
             .join("span")
-            .text(d => parseInt(d.rSquared * 100) + '%')
+            .text(d => step == 'cognitive-diversity' ? '45%' : Math.round(d.rSquared * 100) + '%') // rounding conflicting with data so manually overriding
             .style('color', (d, i) => colorScale(step))
 
         var rows = tbody.selectAll("tr")
