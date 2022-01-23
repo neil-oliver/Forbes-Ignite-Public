@@ -20,6 +20,7 @@
                     </div>
                 </div>
                 <div id="overview-table"></div>
+                <div class="explanation-text">*p-values represent the probability of getting your results just by sheer chance. Scientists usually set a p-value of less than 5% to mean statistically significant</div>
                 <div class="tooltip" id="overview-tooltip"></div>
             </div>
         </div>
@@ -167,7 +168,7 @@
         .attr('class', 'points')
 
     let columns = ['variables', 'direction', 'p-value']
-    let columnNames = ['Variables', 'Direction', 'P&#8209;Value']
+    let columnNames = ['Variables', 'Direction', '*P&#8209;Value']
 
     var table = d3.select('#overview-table').append("table"),
         thead = table.append("thead"),
@@ -307,7 +308,7 @@
         d3.select('#overview-variance')
             .data(regressionLines.filter((d, i) => d.model == step))
             .join("span")
-            .text(d => step == 'cognitive-diversity' ? '45%' : Math.round(d.rSquared * 100) + '%') // rounding conflicting with data so manually overriding
+            .text(d => Math.round(d.rSquared * 100) + '%')
             .style('color', (d, i) => colorScale(step))
 
         var rows = tbody.selectAll("tr")
