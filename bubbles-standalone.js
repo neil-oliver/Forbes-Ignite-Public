@@ -155,7 +155,7 @@
     // colour scales for all lines and legend
     const colorScale = d3.scaleOrdinal()
         .domain(data.map(d => d[group]))
-        .range(['#FDA700','#55BDB9','#BD5CE9'])
+        .range(['#FDA700', '#55BDB9', '#BD5CE9'])
 
     ////////////////////////////////////
     /////////simulation setup///////////
@@ -191,6 +191,15 @@
         .attr('cy', d => yGridScale(d[step]))
         .attr('cx', d => xGridScale(d[step]))
         .attr('class', 'balls')
+
+    let text = svg.selectAll('.trait-text')
+        .data(metrics)
+        .join('text')
+        .attr('y', d => yLeft(d.left) - 10)
+        .attr('x', width / 2)
+        .text(d => d.name)
+        .attr("text-anchor", "middle")
+        .attr('class', 'trait-text')
 
 
     var simulation = d3.forceSimulation(data)
@@ -242,7 +251,7 @@
 
     const cognitiveObserver = new IntersectionObserver((entry, observer) => {
 
-        if (entry[0].isIntersecting == true && step !== 'pymetrics'){
+        if (entry[0].isIntersecting == true && step !== 'pymetrics') {
             step = 'pymetrics'
             update()
         }
@@ -254,7 +263,7 @@
 
     const groupObserver = new IntersectionObserver((entry, observer) => {
 
-        if (entry[0].isIntersecting == true && step == 'pymetrics'){
+        if (entry[0].isIntersecting == true && step == 'pymetrics') {
             step = 'random'
             update()
         }
@@ -267,6 +276,8 @@
         clearTimeout(groupGridTimeout);
 
         if (val) step = val.target.value;
+
+        text.attr('opacity', d => step != 'pymetrics' ? 0 : 1)
 
         balls
             .attr('opacity', d => step != 'pymetrics' && d.i != 0 ? 0 : 1)
