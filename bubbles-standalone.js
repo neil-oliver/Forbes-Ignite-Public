@@ -195,7 +195,7 @@
     let text = svg.selectAll('.trait-text')
         .data(metrics)
         .join('text')
-        .attr('y', d => yLeft(d.left) - 10)
+        .attr('y', d => yLeft(d.left) - 20)
         .attr('x', width / 2)
         .text(d => d.name)
         .attr("text-anchor", "middle")
